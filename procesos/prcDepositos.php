@@ -54,7 +54,7 @@
 			$datosPantalla['id_cuenta'] == '' ||
 			$datosPantalla['monto'] == '') {
 			header("Location: ../manClientes.php?error=4");
-			echo "muestra pagina con error 4";
+			echo "muestra pagina con error 2";
 		}
 
 		/**
