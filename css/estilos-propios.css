@@ -1,0 +1,30 @@
+.footer{
+	position: absolute;
+	bottom: 0%;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.form-login{
+	
+	margin: 0 auto;
+	width: 60%;
+	margin-top: 10em;
+}
+
+.mant{
+	margin-top: 5%;
+	width: 50%;
+}
+
+.titulos{
+	margin-bottom: 3em;
+}
+
+div .alert{
+	position: fixed;
+
+}
