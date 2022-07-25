@@ -52,9 +52,9 @@
 		if ($datosPantalla['num_documento'] == '' ||
 			$datosPantalla['fecha_trx'] == '' ||
 			$datosPantalla['id_cuenta'] == '' ||
-			$datosPantalla['monto'] == '' ||) {
+			$datosPantalla['monto'] == '') {
 			header("Location: ../manClientes.php?error=4");
-			break;
+			
 		}
 
 		/**
