@@ -20,6 +20,13 @@
 
 		}
 
+		public function remueve_signo_trx($strComprobar){
+			$valoresRemover = array("$",",");
+			$resultad = str_replace($valoresRemover,"",$strComprobar);
+			return $resultad;
+		}
+
 	}
+
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-	include_once("./db/ConexionDB.php");
+	include_once("../db/ConexionDB.php");
 
 	/**
 	 * 
@@ -23,10 +23,10 @@
 		public function insertar($pValores)
 		{
 			try {
-				
-				$sql = "INSERT INTO bitacora_errores VALUES (null, '" . $pValores["descripcion_error"] . "'," . $pValores["error_num"] . ", CURRENT_TIMESTAMP, '" . $pValores["modulo"] . "', '" . $pValores["funcion"] . "', '" . $pValores["script_sql"] . "', '" . $pValores["datos_pantalla"] . "')";
-				
-				$this->dbm->ejecutar($sql);
+				if ($pValores["descripcion_error"] <> "Registro no existe") {
+					$sql = "INSERT INTO bitacora_errores VALUES (null, '" . $pValores["descripcion_error"] . "'," . $pValores["error_num"] . ", CURRENT_TIMESTAMP, '" . $pValores["modulo"] . "', '" . $pValores["funcion"] . "', '" . $pValores["script_sql"] . "', '" . $pValores["datos_pantalla"] . "')";
+					$this->dbm->ejecutar($sql);
+				}
 			} catch (Exception $e) {
 				throw new Exception("Error en metodo en insertar: " . $e->getMessage());
 				

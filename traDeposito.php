@@ -44,52 +44,52 @@
 		<h2 class="text-center titulos">Depositos a cuentas</h2>
 		
 		<form action="procesos/prcDepositos.php" method="POST" class="needs-validation row" novalidate>
-		<div class="col-md-3">
-			<div class="form-floating">
-				<input type="number" name="num_documento" class="form-control" id="num_documento" placeholder="12345678">
-				<label for="num_documento">Numero de documento</label>
+			<div class="col-md-4">
+				<div class="form-floating">
+					<input type="number" name="num_documento" class="form-control" id="num_documento" placeholder="12345678">
+					<label for="num_documento">Numero de documento</label>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="has-validation form-floating">
-				<input type="text" name="fecha_trx" class="form-control" id="fecha_trx" placeholder="2000-01-01" value="<?php print($fechaActual);?>" aria-label="Disabled input example"  required disabled>
+			<div class="col-md-1">
+				<div class="has-validation form-floating">
+					<input type="text" name="fecha_trx" class="form-control visually-hidden" id="fecha_trx" value="<?php print($fechaActual);?>" aria-label="Disabled input example"  required>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="has-validation form-floating">
-				<input type="number" name="id_cuenta" class="form-control" id="id_cuenta" placeholder="Juan"  required>
-				<label for="id_cuenta">Cuenta</label>
-				<div class="invalid-feedback">
-        			Ingrese una cuenta
-      			</div>
+			<div class="col-md-6">
+				<div class="has-validation form-floating">
+					<input type="number" name="id_cuenta" class="form-control" id="id_cuenta" placeholder="Juan"  required>
+					<label for="id_cuenta">Cuenta</label>
+					<div class="invalid-feedback">
+						Ingrese una cuenta
+					</div>
+				</div>
 			</div>
-		</div>
-		
-		<div class="col-md-4">
-			<div class="has-validation form-floating">
-				<input type="text" name="monto" id="monto" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$1,000,000.00" class="form-control form-meney-control"required>
-				<label for="monto">Monto de la transacción</label>
-				<div class="invalid-feedback">
-        			Ingrese un monto
-      			</div>
+			
+			<div class="col-md-6">
+				<div class="has-validation form-floating">
+					<input type="text" name="monto" id="monto" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$1,000,000.00" class="form-control form-meney-control"required>
+					<label for="monto">Monto de la transacción</label>
+					<div class="invalid-feedback">
+						Ingrese un monto
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-8"></div>
-		<div class="col-md-12">
-			<div class="form-floating">
-				<textarea name="detalle_trx" class="form-control" id="detalle_trx" placeholder="Deposito por pago"></textarea>
-				<label for="detalle_trx">Descripción del movimiento</label>
+			<div class="col-md-8"></div>
+			<div class="col-md-12">
+				<div class="form-floating">
+					<textarea name="detalle_trx" class="form-control" id="detalle_trx" placeholder="Deposito por pago"></textarea>
+					<label for="detalle_trx">Descripción del movimiento</label>
+				</div>
 			</div>
-		</div>
 
-		<div class="col-md-12">
-			<br>
-		</div>
-		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<input type="submit" name="btnClientes" class="btn btn-primary btn-lg" value="Aceptar">
-		</div>
+			<div class="col-md-12">
+				<br>
+			</div>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+				<input type="submit" name="btnClientes" class="btn btn-primary btn-lg" value="Aceptar">
+			</div>
 		
-	</form>
+		</form>
 
 	</div>
 	

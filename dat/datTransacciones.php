@@ -39,12 +39,7 @@
 		public function insertar($pValores)
 		{
 			try {
-				//toma la fecha actual y le suma 1500 días
-				$vencimiento = date('Y-m-d',strtotime(date('Y-m-d')."+ 1500 days"));
-				//valor random entre el 0 y 999
-				$cvv = rand(0, 999);
-
-				$sql = "INSERT INTO transacciones VALUES (NULL , CURRENT_TIMESTAMP," . $pValores['monto'] . ", " . $pValores['id_cuenta'] . "," . $pValores['id_usuario'] . ", " . $pValores['id_servicio'] . ", " . $pValores['num_documento'] . ", " . $pValores['descripcion'] .");";
+				$sql = "INSERT INTO transacciones VALUES (NULL , CURRENT_TIMESTAMP, '" . $pValores['monto'] . "', " . $pValores['id_cuenta'] . "," . $pValores['id_usuario'] . ", " . $pValores['id_tarjeta'] . ", " . $pValores['id_servicio'] . ", " . $pValores['num_documento'] . ", '" . $pValores['detalle_trx'] ."');";
 				$this->dbm->ejecutar($sql);
 
 			} catch (Exception $e) {

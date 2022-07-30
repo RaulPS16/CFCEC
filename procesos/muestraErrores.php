@@ -65,6 +65,34 @@
 						</div>
 					<?php
 					break;
+				case '8':
+					?>
+						<div class="alert alert-warning" role="alert">
+							Servicio no habilitado por el momento
+						</div>
+					<?php
+					break;
+				case '9':
+					?>
+						<div class="alert alert-warning" role="alert">
+							Cuenta no existe
+						</div>
+					<?php
+					break;
+				case '10':
+					?>
+						<div class="alert alert-warning" role="alert">
+							Transacción ya ingresada con anterioridad (numero de documento)
+						</div>
+					<?php
+					break;
+				case '11':
+					?>
+						<div class="alert alert-warning" role="alert">
+							No existen parametros contrables para la transacción, contacte con servicios tecnicos o contabildiad.
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">
