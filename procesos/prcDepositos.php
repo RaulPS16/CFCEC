@@ -42,7 +42,7 @@
 			"id_cuenta" => $_POST['id_cuenta'], 
 			"monto" => $_POST['monto'], 
 			"detalle_trx" => $_POST['detalle_trx'], 
-			"id_servicio" => "20", 
+			"id_servicio" => "1", 
 			"id_usuario" => "",
 			"modulo" => "traDepositos");
 		

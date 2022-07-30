@@ -20,7 +20,6 @@
 
 	<?php
 		include("menu.php");
-
 		include_once("procesos/muestraErrores.php");
 		$retornoDatos = array("id_cuenta" => "", "id_cliente" => "", "moneda" => "");
 		$fechaActual = date("Y-m-d");
@@ -35,8 +34,9 @@
 
 		include_once("dat/datMonedas.php");
 		$datMonedas = new datMonedas();
-		$listaMonedas = $datMonedas->consultaLista();
-
+		$modulo = array("modulo" => "ManCuentas");
+		$listaMonedas = $datMonedas->consultaLista($modulo);
+	
 	?>
 	<div class="container mant">
 

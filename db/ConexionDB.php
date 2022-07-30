@@ -27,7 +27,7 @@
 			}
 		}//fin __construct()
 
-		private function Conectar (){
+		function Conectar (){
 
 			try {
 				if (!empty($this->host) && !empty($this->db)){

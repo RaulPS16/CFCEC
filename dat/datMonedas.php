@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("../db/ConexionDB.php");
-	include_once("datBitacoraErrores.php");
-	include_once("../utilitarios.php");
+	include("./db/ConexionDB.php");
+	include("datBitacoraErrores.php");
+	include("./utilitarios.php");
 
 	/**
 	 * 
@@ -113,7 +113,7 @@
 		/**
 		* Consulta todos los registros en la tabla
 		*/
-		public function consultaLista()
+		public function consultaLista($pValores)
 		{
 			try {
 				$sql = "SELECT * FROM monedas WHERE estado = 1 ORDER BY id_moneda ASC;";
