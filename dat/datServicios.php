@@ -39,7 +39,7 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO servicios VALUES (NULL ,'" . $pValores["nombre_servicio"] . "','" . $pValores["descripcion"] . "');";
+				$sql = "INSERT INTO servicios VALUES (" . $pValores["id_servicio"] . " ,'" . $pValores["nombre_servicio"] . "','" . $pValores["descripcion"] . "');";
 				$this->dbm->ejecutar($sql);
 
 			} catch (Exception $e) {
@@ -110,7 +110,8 @@
 				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
 				$this->BitacoraErrores->insertar($this->utilitario->cadena);
 				//genera la exepcion
-				throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
+				// se comenta para no generar una exepción en los procesos
+				//throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
 				
 			}
 		}// fin consultar

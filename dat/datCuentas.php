@@ -45,7 +45,7 @@
 				$resultUltimaCuenta = mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 				$siguienteCuenta = $resultUltimaCuenta["id_cuenta"] + 1;
 
-				$sql = "INSERT INTO cuentas VALUES (" . $siguienteCuenta . "," . $pValores["id_cliente"] . "," . $pValores["moneda"] . ",  '0000-00-00 00:00:00', 0);";
+				$sql = "INSERT INTO cuentas VALUES (" . $siguienteCuenta . "," . $pValores["id_cliente"] . "," . $pValores["moneda"] . ",  NULL, 0);";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error

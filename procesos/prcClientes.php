@@ -22,10 +22,14 @@
 					break;
 				}
 				$datosSQL = $datClientes->Consultar($datosPantalla);
+				//si no devuelve datos muestra error
+				if ($datosSQL == '') {
+					header("Location: ../manClientes.php?error=3");
+					break;
+				}
+				
 				$datosSQL = serialize($datosSQL);
 				$datosSQL = urlencode($datosSQL);
-
-				//print_r("1: " . $datosSQL) ;
 				header("Location: ../manClientes.php?datosSQL=". $datosSQL);
 				break;
 			case 'Insertar':

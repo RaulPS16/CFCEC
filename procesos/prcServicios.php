@@ -35,6 +35,7 @@
 					header("Location: ../manServicios.php?error=5");
 					break;
 				}
+				
 				// Inserta los datos
 				$datosSQL = $datServicios->insertar($datosPantalla);
 				header("Location: ../manServicios.php?error=0");

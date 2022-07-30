@@ -21,24 +21,25 @@
 	<?php
 	include("menu.php");
 	include_once("procesos/muestraErrores.php");
-		$retornoDatos = array("id_cliente" => "", 
-			"nombre" => "", 
-			"apellidos" => "", 
-			"fecha_nacimiento" => "", 
-			"tipo_cliente" => "", 
-			"direccion_fisica" => "", 
-			"email" => "", 
-			"modulo" => "");
-		$fechaActual = date("Y-m-d");
-		//&& $_GET['error'] <> 0
-		if (isset($_GET['error']) ) {
-			$muestraErrores = new muestraErrores($_GET['error']);
-		}
+	$retornoDatos = array("id_cliente" => "", 
+		"nombre" => "", 
+		"apellidos" => "", 
+		"fecha_nacimiento" => "", 
+		"tipo_cliente" => "", 
+		"direccion_fisica" => "", 
+		"email" => "", 
+		"modulo" => "");
+	$fechaActual = date("Y-m-d");
+	//&& $_GET['error'] <> 0
+	if (isset($_GET['error']) ) {
+		$muestraErrores = new muestraErrores($_GET['error']);
+	}
 
-		if (isset($_GET['datosSQL'])) {
-			$retornoDatos = unserialize($_GET['datosSQL']);
-		}
-		$fechaActual = date("Y-m-d");
+	if (isset($_GET['datosSQL'])) {
+		$retornoDatos = unserialize($_GET['datosSQL']);
+	}
+
+	$fechaActual = date("Y-m-d");
 
 	?>
 	<div class="container mant">
