@@ -43,7 +43,7 @@
 
 		<h2 class="text-center titulos">Depositos a cuentas</h2>
 		
-		<form action="procesos/prcTransacciones.php" method="POST" class="needs-validation row" novalidate>
+		<form action="procesos/prcDepositos.php" method="POST" class="needs-validation row" novalidate>
 		<div class="col-md-3">
 			<div class="form-floating">
 				<input type="number" name="num_documento" class="form-control" id="num_documento" placeholder="12345678">

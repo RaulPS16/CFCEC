@@ -8,13 +8,13 @@
 		 * transacciones y las reglas de negocio
 		 * 
 		 */
-		include_once("/../dat/datTransacciones.php");
-		include_once("/../dat/datParam_contable.php");
-		include_once("/../dat/datcontabilidad.php");
-		include_once("/../dat/datServicios.php");
-		include_once("/../dat/datCuentas.php");
-		include_once("/../dat/datTarjetas.php");
-		include_once("/../dat/datClientes.php");
+		include_once("../dat/datTransacciones.php");
+		include_once("../dat/datParam_contable.php");
+		include_once("../dat/datcontabilidad.php");
+		include_once("../dat/datServicios.php");
+		include_once("../dat/datCuentas.php");
+		include_once("../dat/datTarjetas.php");
+		include_once("../dat/datClientes.php");
 
 		/**
 		 * 
@@ -49,13 +49,12 @@
 		/**
 		 *  Valida que los campos obligatorios no estén en blanco
 		 */
-		if ($datosPantalla['num_documento'] == '' ||
+		/*if ($datosPantalla['num_documento'] == '' ||
 			$datosPantalla['fecha_trx'] == '' ||
 			$datosPantalla['id_cuenta'] == '' ||
 			$datosPantalla['monto'] == '') {
 			header("Location: ../manClientes.php?error=4");
-			echo "muestra pagina con error 6";
-		}
+		}*/
 
 		/**
 		 * Validaciones generales

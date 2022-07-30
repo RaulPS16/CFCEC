@@ -2,7 +2,7 @@
 
 	try {
 		
-		include_once("/../dat/datTarjetas.php");
+		include_once("../dat/datTarjetas.php");
 
 		$datTarjetas = new datTarjetas();
 
