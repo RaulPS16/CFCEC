@@ -24,13 +24,13 @@
 
 		$datTransacciones = new datTransacciones();
 		$datParam_contable = new datParam_contable();
-		$datcontabilidad = new datcontabilidad();
+		$datContabilidad = new datcontabilidad();
 		$datServicios = new datServicios();
 		$datCuentas = new datCuentas();
 		$datTarjetas = new datTarjetas();
 		$datClientes = new datClientes();
 		$utilitario = new utilitarios();
-
+		$errorInterno = 0;
 		/**
 		 * 
 		 * Se declara el array $datosPantalla el cual obtiene del 
@@ -46,30 +46,19 @@
 			"id_tarjeta" => "0",
 			"id_servicio" => "1", 
 			"id_usuario" => "604320137",
-			"modulo" => "traDepositos");
+			"modulo" => "traDepositos",
+			"cr_db" => "",
+			"cuenta_contable" => "");
 
-		/*$datosPantalla = array("num_documento" => 2, 
-			"fecha_trx" => "2022-07-30", 
-			"id_cuenta" => 1, 
-			"monto" => 1, 
-			"detalle_trx" => "", 
-			"id_servicio" => "1", 
-			"id_usuario" => "",
-			"modulo" => "traDepositos");*/
-		print_r($datosPantalla);
 		/**
 		 *  Valida que los campos obligatorios no estén en blanco
 		 */
-		/*if ($datosPantalla['num_documento'] == '' ||
+		if ($datosPantalla['num_documento'] == '' ||
 			$datosPantalla['fecha_trx'] == '' ||
 			$datosPantalla['id_cuenta'] == '' ||
 			$datosPantalla['monto'] == '') {
 			header("Location: ../traDeposito.php?error=4");
-		}*/
-
-		/**
-		 * Validaciones generales
-		 */
+		}
 
 		/**
 		 * Valida que el servicio exista
@@ -111,7 +100,10 @@
 		 */
 			try {
 				$datosContables = $datParam_contable->consultarXServicio($datosPantalla);
-			} catch (\Throwable $th) {
+				if (empty($datosContables)) {
+					header("Location: ../traDeposito.php?error=11");
+				}
+			} catch (Exception $e) {
 				//Si no existen parametros devuelve error
 				header("Location: ../traDeposito.php?error=11");
 			}
@@ -120,8 +112,6 @@
 		 */
 
 			$datosPantalla["monto"] = $utilitario->remueve_signo_trx($datosPantalla["monto"]);
-			echo "<br>";
-			print_r($datosPantalla["monto"]);
 
 		/**
 		 * Realiza la transacción
@@ -129,11 +119,28 @@
 			try {
 				$transacción = $datTransacciones->insertar($datosPantalla);
 			}catch (Exception $th) {
-				//throw $th;
+				$errorInterno = 1;
 			}
 		/**
 		 * Realiza la contabilidad
 		 */
+			try {
+				if ($errorInterno == 0) {
+					/**
+					 * Lee la tabla generada en $datosContables
+					 * Por cada registro crea un registro contable, esto se hace para generar un asiento completo
+					 */
+					foreach ($datosContables as $key => $value) {
+						$datosPantalla["cr_db"] = $value["cr_db"];
+						$datosPantalla["cuenta_contable"] = $value["cuenta_contable"];
+						$aplicaConta = $datContabilidad->insertar($datosPantalla);
+					}
+				}
+				header("Location: ../traDeposito.php?error=13");
+
+			} catch (Exception $th) {
+				header("Location: ../traDeposito.php?error=12");
+			}
 
 	} catch (Exception $e) {
 		header("Location: ../traDeposito.php?error=3");

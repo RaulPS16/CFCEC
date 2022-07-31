@@ -40,24 +40,9 @@
 		{
 			try {
 
-				// se trae la cuenta contable del credito
-				$consultaParConta = "SELECT * FROM 'param_contable' WHERE id_servicio = " . $pValores["id_servicio"] . " AND estado = 1 AND cr_db = 'CR' ORDER BY fecha_creacion DESC LIMIT 1;" ;
-				$this->dbm->Consultar($consultaParConta);
-				$crParConta = mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
-				// Genera el SQL para el credito
-				$sqlCR = "INSERT INTO contabilidad VALUES (null,'" . $crParConta["cuenta_contable"] . "','" . $pValores["monto"] . "'," . $pValores["num_documento"] . ",'" . $crParConta["cr_db"] . "','" . $pValores["id_usuario"] . "','" . $pValores["id_servicio"] . "', '" . date('Y-m-d', time()) . "');";
+				$sql = "INSERT INTO contabilidad VALUES (NULL,'" . $pValores["cuenta_contable"] . "','" . $pValores["monto"] . "'," . $pValores["num_documento"] . ",'" . $pValores["cr_db"] . "','" . $pValores["id_usuario"] . "','" . $pValores["id_servicio"] . "', '" . $pValores["fecha_trx"] . "');";
 
-				// se trae la cuenta contable del debito
-				$consultaParConta = "SELECT * FROM 'param_contable' WHERE id_servicio = " . $pValores["id_servicio"] . " AND estado = 1 AND cr_db = 'DB' ORDER BY fecha_creacion DESC LIMIT 1;" ;
-				$this->dbm->Consultar($consultaParConta);
-				$dbParConta = mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
-				// Genera el SQL para el debito
-				$sqlCR = "INSERT INTO contabilidad VALUES (null,'" . $dbParConta["cuenta_contable"] . "','" . $pValores["monto"] . "'," . $pValores["num_documento"] . ",'" . $dbParConta["cr_db"] . "','" . $pValores["id_usuario"] . "','" . $pValores["id_servicio"] . "', '" . date('Y-m-d', time()) . "');";
-
-				// ejecuta las insersiones de credito y debito
-				$this->dbm->ejecutar($sqlCR);
-				$this->dbm->ejecutar($sqlDB);
-				$sql = $sqlCR . " " . $sqlDB;
+				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));

@@ -93,6 +93,20 @@
 						</div>
 					<?php
 					break;
+				case '12':
+					?>
+						<div class="alert alert-warning" role="alert">
+							Error con la transacción
+						</div>
+					<?php
+					break;
+				case '13':
+					?>
+						<div class="alert alert-success" role="alert">
+						Transcción exitosa
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">
