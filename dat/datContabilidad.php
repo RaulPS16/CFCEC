@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("../db/ConexionDB.php");
+	include_once("./db/ConexionDB.php");
 	include_once("datBitacoraErrores.php");
-	include_once("../utilitarios.php");
+	include_once("./utilitarios.php");
 
 	/**
 	 * 
@@ -124,7 +124,7 @@
 		public function consultarFecha($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM contabilidad WHERE fecha = '" . $pValores["fecha"] . "';";
+				$sql = "SELECT * FROM contabilidad WHERE fecha = '" . $pValores["fecha_contable"] . "';";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -137,6 +137,45 @@
 				
 			}
 		}// fin consultarFecha
+
+		/**
+		* Consulta un registro en la tabla por fecha y usuario
+		*/
+		public function consultarFechaUsuario($pValores, $pIndice = 0, $pResultadoPorPagina)
+		{
+			try {
+				$sql = "SELECT * FROM contabilidad WHERE fecha LIKE '%" . $pValores["fecha_contable"] . "%'";				
+				if ($pValores["id_usuario"] <> '') {
+					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
+				}
+				$sql = $sql . " ORDER BY fecha DESC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . "";
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				$error = "NO hay datos: ";
+				return $error;
+				
+			}
+		}// fin consultarFechaUsuario
+
+		/**
+		* Consulta un registro en la tabla por fecha y usuario
+		*/
+		public function consultarContador($pValores)
+		{
+			try {
+				$sql = "SELECT COUNT(*) AS total FROM contabilidad WHERE fecha LIKE '%" . $pValores["fecha_contable"] . "%'";				
+				if ($pValores["id_usuario"] <> '') {
+					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
+				}
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				$error = "NO hay datos";
+				return $error;
+				
+			}
+		}// fin consultarContador
 
 	}
 
