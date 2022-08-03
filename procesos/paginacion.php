@@ -13,6 +13,7 @@ class paginacion extends datContabilidad{
     private $totalCR = 0;
 	private $totalDB = 0;
 	private $difConta = 0;
+    private $url;
 
     function __construct($nPorPagina, $pValores){
         parent::__construct();
@@ -30,7 +31,6 @@ class paginacion extends datContabilidad{
         //$query = $this->connect()->prepare('SELECT * FROM pelicula LIMIT :pos, :n');    
         //$query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
         $datosConsultados = $this->consultarFechaUsuario($this->valoresConsulta, $this->indice, $this->resultadosPorPagina);
-        
         foreach ($datosConsultados as $key => $value) {
             ?>
                 <tr>
@@ -41,14 +41,40 @@ class paginacion extends datContabilidad{
                     <td><?php print_r($value["num_documento"])?></td>
                     <td>$<?php print_r($value["monto"])?></td>
                 </tr>
-                <?php
-                //Evalua si es un DB o CR para totalizarlos
-                if ($value["cr_db"] == "DB") {
-                    $this->totalDB += $value["monto"];
-                }elseif ($value["cr_db"] == "CR") {
-                    $this->totalCR += $value["monto"];
-                }
+            <?php
+            //Evalua si es un DB o CR para totalizarlos
+            if ($value["cr_db"] == "DB") {
+                $this->totalDB += $value["monto"];
+            }elseif ($value["cr_db"] == "CR") {
+                $this->totalCR += $value["monto"];
+            }
         }
+        if (!empty($_GET["totalCR"]) || !empty($_GET["totalDB"])) {
+            $this->totalCR += $_GET["totalCR"];
+            $this->totalDB += $_GET["totalDB"];
+        }
+        // muestra totales
+        if ($this->totalPaginas == ($this->indice - 1)) {
+            
+            $this->difConta = $this->totalCR - $this->totalDB;
+            ?>
+                <tfoot class="text-center">
+                    <td colspan="2" scope="row">CR: <?php print_r($this->totalCR)?></td>
+                    <td colspan="2" scope="row">DB: <?php print_r($this->totalDB)?></td>
+                    <td colspan="2" scope="row">Dif CR - DB: <?php print_r($this->difConta)?></td>
+                </tfoot>
+            <?php
+        }else{
+            // mueve los valores de $this->totalCR y $this->totalDB a la url para usarlo en la siguiente consulta
+            $this->url = $this->url . "&totalCR=" . $this->totalCR . "&totalDB=" . $this->totalDB;
+            ?>
+                <tfoot class="text-center">
+                    <td colspan="6" scope="row">Totales solo en la ultima pagina</td>
+                </tfoot>
+            <?php
+        }
+        
+
     }
 
     function calcularPaginas(){
@@ -63,17 +89,20 @@ class paginacion extends datContabilidad{
     }
 
     function mostrarPaginas(){
-        $actual = '';
-        
-        $actual = ' class="page-item" ';
+        //fecha_contable=2022-07-30&id_usuario=604320137
+        $this->url = $this->url . '&fecha_contable=' . $this->valoresConsulta["fecha_contable"] . '&id_usuario=' . $this->valoresConsulta["id_usuario"] . '';
+        echo '<nav aria-label="Page navigation example">';
+        echo '<ul class="pagination justify-content-center">';
         for($i=0; $i < $this->totalPaginas; $i++){
-            /*if(($i + 1) == $this->paginaActual){
-                $actual = ' class="page-item" ';
+            if(($i + 1) == $this->paginaActual){
+                $actual = ' active';
             }else{
                 $actual = '';
-            }*/
-            echo '<li><a ' .$actual . 'href="?pagina='. ($i + 1). '">'. ($i + 1) . '</a></li>';
+            }
+            echo '<li class="page-item ' . $actual . '"><a class="page-link"href="?pagina='. ($i + 1) . $this->url .'">'. ($i + 1) . '</a></li>';
         }
+        echo '</ul>';
+        echo '</nav>';
 
     }
 

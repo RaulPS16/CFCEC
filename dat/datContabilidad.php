@@ -17,6 +17,7 @@
 		var $dbm = null;
 		var $BitacoraErrores = null;
 		var $utilitario = null;
+		public $error;
 		//Se define el vector para el control de errores
 		var $datosBitacora = array('descripcion_error' => '','error_num' => '', 'modulo' => '', 'funcion' => '', 'script_sql' => '', '' => '');
 		//metodo constructor inicializa las variables de DB, bitacoraErrores y utilitarios llamanda a sus clases correspondientes
@@ -147,13 +148,14 @@
 				$sql = "SELECT * FROM contabilidad WHERE fecha LIKE '%" . $pValores["fecha_contable"] . "%'";				
 				if ($pValores["id_usuario"] <> '') {
 					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
+					echo $sql;
 				}
 				$sql = $sql . " ORDER BY fecha DESC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . "";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
-				$error = "NO hay datos: ";
-				return $error;
+				$this->error = "NO hay datos";
+				return $this->error;
 				
 			}
 		}// fin consultarFechaUsuario

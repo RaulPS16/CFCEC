@@ -107,6 +107,13 @@
 						</div>
 					<?php
 					break;
+				case '14':
+					?>
+						<div class="alert alert-success" role="alert">
+						No hay dados para la consulta
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">

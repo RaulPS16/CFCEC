@@ -22,28 +22,38 @@
 	<?php
 	include("menu.php");
 	include_once("procesos/paginacion.php");
-	$valores = array("fecha_contable" => "2022-07-30",
-	 "id_usuario" => 604320137);
+	
+	// Valida si en la URL está en la fecha_contable para mostrar la tablas
+	$mostrartabla = FALSE;
+	if (!empty($_GET["fecha_contable"])) {
+		$valores = array(
+			"fecha_contable" => $_GET["fecha_contable"],
+	 		"id_usuario" => $_GET["id_usuario"],
+			"totalCR" => $_GET["totalCR"],
+			"totalDB" => $_GET["totalDB"]);
 
-	$paginas = new paginacion(2, $valores);
+		$paginas = new paginacion(3, $valores);
+		$mostrartabla = TRUE;
+	}
+	
 
 	$fechaActual = date("Y-m-d");
 	if (isset($_GET['error']) && $_GET['error'] <> 0) {
 		echo "Se a producido un error";
 	}
-	$totalCR = 0;
+	/*$totalCR = 0;
 	$totalDB = 0;
-	$difConta = 0;
+	$difConta = 0;*/
 	?>
 	<div class="container">
 
 		<h2 class="text-center titulos">Consulta contable</h2>
 
-		<form method="POST" action="#" class="row">
+		<form method="GET" action="#" class="row">
 
 			<div class="col-md-6">
 				<div class="has-validation form-floating">
-					<input type="date" name="fecha_contable" class="form-control" id="fecha_contable" max=<?php print($fechaActual);?> >
+					<input type="date" name="fecha_contable" class="form-control" id="fecha_contable" max=<?php print($fechaActual);?> value="<?php print_r($_GET['fecha_contable']); ?>" >
 					<label for="fecha_contable">Ingrese una fehca valida</label>
 					<div class="invalid-feedback">
 	        			Ingrese una fehca valida
@@ -65,8 +75,13 @@
 			<div class="col-md-12">
 				<br>
 			</div>
+			<div>
+				<input type="hidden" name="totalCR">
+				<input type="hidden" name="totalDB">
+			</div>
 		</form>
-
+		<?php if ($mostrartabla) { ?>
+		
 		<table class="table table-striped">
             <thead  class="text-center">
                 <tr>
@@ -80,44 +95,19 @@
             </thead>
             <tbody  class="text-center">
 			<nav aria-label="Page navigation example">
-  				<ul class="pagination">
                 <?Php
-				$paginas->mostrar();
-                    //Recorre toda la consulta para pintar la tabla
-                    /*foreach ($datosSQL as $key => $value) {
-                        ?>
-                            <tr>
-                            <th scope="row"><?php print_r($value["cuenta_contable"]);?></th>
-                            <td><?php print_r($value["cr_db"])?></td>
-                            <td><?php print_r($value["id_usuario"])?></td>
-                            <td><?php print_r($value["fecha"])?></td>
-                            <td><?php print_r($value["num_documento"])?></td>
-                            <td>$<?php print_r($value["monto"])?></td>
-                            </tr>
-                        <?php
-                        //Evalua si es un DB o CR para totalizarlos
-                        if ($value["cr_db"] == "DB") {
-                            $totalDB += $value["monto"];
-                        }elseif ($value["cr_db"] == "CR") {
-                            $totalCR += $value["monto"];
-                        }
-                    }
-                // Saca la diferencia entre CR y DB
-                $difConta = $totalCR - $totalDB;*/
+					$paginas->mostrar();
                 ?>
-					</ul>
 				</nav>
             </tbody>
-            <tfoot class="text-center">
-                <td colspan="2" scope="row">CR: <?php print_r($totalCR)?></td>
-                <td colspan="2" scope="row">DB: <?php print_r($totalDB)?></td>
-                <td colspan="2" scope="row">Dif CR - DB: <?php print_r($difConta)?></td>
-            </tfoot>
+
         </table>
 		<?php
+		if (empty($_GET["totalCR"])) {
+			$paginas->mostrarPaginas();
+		}
 		
-		$paginas->mostrarPaginas();
-		
+		} // if $mostrartabla
 		?>
 	</div>
 	
