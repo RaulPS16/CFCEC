@@ -20,7 +20,7 @@
 
 	<?php
 		include("menu.php");
-		include_once("procesos/muestraErrores.php");
+		include_once("muestraErrores.php");
 		$retornoDatos = array("id_cuenta" => "", "id_cliente" => "", "moneda" => "");
 		$fechaActual = date("Y-m-d");
 		//&& $_GET['error'] <> 0
@@ -32,7 +32,7 @@
 			$retornoDatos = unserialize($_GET['datosSQL']);
 		}
 
-		include_once("dat/datMonedas.php");
+		include_once("datMonedas.php");
 		$datMonedas = new datMonedas();
 		$modulo = array("modulo" => "ManCuentas");
 		$listaMonedas = $datMonedas->consultaLista($modulo);

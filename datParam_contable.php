@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("../db/ConexionDB.php");
+	include_once("ConexionDB.php");
 	include_once("datBitacoraErrores.php");
-	include_once("../utilitarios.php");
+	include_once("utilitarios.php");
 
 	/**
 	 * 
@@ -11,7 +11,7 @@
 	 * MYSQLI_ASSOC despliega los encabezados del array y no como posiciones del vector
 	 * 
 	 */
-	class datTarjetas 
+	class datParam_contable
 	{
 		// Se instancian las variables globales para el uso dentro de los metodos
 		var $dbm = null;
@@ -39,14 +39,8 @@
 		public function insertar($pValores)
 		{
 			try {
-				//toma la fecha actual y le suma 1500 días
-				$vencimiento = date('Y-m-d',strtotime(date('Y-m-d')."+ 1500 days"));
-				//valor random entre el 0 y 999
-				$cvv = rand(0, 999);
-
-				$sql = "INSERT INTO tarjetas VALUES (NULL ," . $pValores["id_cuenta"] . ",'" . $vencimiento . "', " . $pValores['estado'] . "," . $cvv . ");";
+				$sql = "INSERT INTO param_contable VALUES (" . $pValores["cuenta_contable"] . ",'" . $pValores["descripcion"] . "',CURRENT_TIMESTAMP, 1,'" . $pValores["id_servicio"] ."','" . $pValores["cr_db"] . "');";
 				$this->dbm->ejecutar($sql);
-
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
@@ -64,7 +58,7 @@
 		public function modificar($pValores)
 		{
 			try {
-				$sql = "UPDATE tarjetas SET id_cuenta = " . $pValores["id_cuenta"] . ", estado = '" . $pValores["estado"] . "' WHERE id_tarjeta = " . $pValores["id_tarjeta"] . ";";
+				$sql = "UPDATE param_contable SET descripcion = '" . $pValores["descripcion"] . "', estado = " . $pValores["estado"] . ", id_servicio = '" . $pValores["id_servicio"] . "', cr_db = '" . $pValores["cr_db"] . "';";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -83,7 +77,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM tarjetas WHERE id_tarjeta = " . $pValores["id_tarjeta"] . ";";
+				$sql = "DELETE FROM param_contable WHERE cuenta_contable = " . $pValores["cuenta_contable"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -102,12 +96,8 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM tarjetas WHERE id_tarjeta = " . $pValores["id_tarjeta"] . ";";
+				$sql = "SELECT * FROM param_contable WHERE cuenta_contable = " . $pValores["cuenta_contable"] . ";";
 				$this->dbm->Consultar($sql);
-				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
-				if ($cantidadFilas == 0) {
-					throw new Exception("Registro no existe");
-				}
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -126,7 +116,7 @@
 		public function consultaLista()
 		{
 			try {
-				$sql = "SELECT * FROM tarjetas;";
+				$sql = "SELECT * FROM param_contable WHERE estado = 1 ORDER BY fecha_creación ASC;";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -139,6 +129,26 @@
 				
 			}
 		}
+
+		/**
+		* Consulta por id_servicio
+		*/
+		public function consultarXServicio($pValores)
+		{
+			try {
+				$sql = "SELECT * FROM param_contable WHERE id_servicio = " . $pValores["id_servicio"] . ";";
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				// Carga el vector para hacer el reporte del error
+				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
+				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
+				$this->BitacoraErrores->insertar($this->utilitario->cadena);
+				//genera la exepcion
+				throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
+				
+			}
+		}// fin consultar
 
 	}
 

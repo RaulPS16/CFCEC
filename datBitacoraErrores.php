@@ -1,6 +1,6 @@
 <?php
 
-	include_once("../db/ConexionDB.php");
+	include_once("ConexionDB.php");
 
 	/**
 	 * 

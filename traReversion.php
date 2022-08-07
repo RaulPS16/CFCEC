@@ -21,8 +21,8 @@
 
 	<?php
 	include("menu.php");
-	include_once("procesos/muestraErrores.php");
-	include_once("procesos/paginacionTransacciones.php");
+	include_once("muestraErrores.php");
+	include_once("paginacionTransacciones.php");
 
 	$fechaActual = date("Y-m-d");
 	$valores = array(

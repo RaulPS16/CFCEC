@@ -2,7 +2,7 @@
 
 	try {
 		
-		include_once("../dat/datServicios.php");
+		include_once("datServicios.php");
 
 		$datServicios = new datServicios();
 
@@ -11,7 +11,7 @@
 		switch ($_POST['btnServicios']) {
 			case 'Consultar':
 				if (!isset($datosPantalla['id_servicio'])) {
-					header("Location: ../manServicios.php?error=4");
+					header("Location: manServicios.php?error=4");
 					break;
 				}
 				$datosSQL = $datServicios->Consultar($datosPantalla);
@@ -19,60 +19,60 @@
 				$datosSQL = urlencode($datosSQL);
 
 				//print_r("1: " . $datosSQL) ;
-				header("Location: ../manServicios.php?datosSQL=". $datosSQL);
+				header("Location: manServicios.php?datosSQL=". $datosSQL);
 				break;
 			case 'Insertar':
 				if (!isset($datosPantalla['id_servicio']) ||
 					!isset($datosPantalla['nombre_servicio']) ||
 					!isset($datosPantalla['descripcion'])) {
-					header("Location: ../manServicios.php?error=4");
+					header("Location: manServicios.php?error=4");
 					break;
 				}
 
 				// Valida que el numero de registro no esté insertado
 				$datosSQL = $datServicios->Consultar($datosPantalla);
 				if ($datosSQL["id_servicio"] == $datosPantalla['id_servicio']) {
-					header("Location: ../manServicios.php?error=5");
+					header("Location: manServicios.php?error=5");
 					break;
 				}
 				
 				// Inserta los datos
 				$datosSQL = $datServicios->insertar($datosPantalla);
-				header("Location: ../manServicios.php?error=0");
+				header("Location: manServicios.php?error=0");
 				break;
 			case 'Eliminar':
 				if ($datosPantalla['id_servicio'] <> ''){
 					if($datosPantalla['nombre_servicio'] == '' ||
 						$datosPantalla['descripcion'] == ''){
-						header("Location: ../manServicios.php?error=6");
+						header("Location: manServicios.php?error=6");
 						break;
 					}
 				}
 
 				$datosSQL = $datServicios->eliminar($datosPantalla);
-				header("Location: ../manServicios.php?error=2");
+				header("Location: manServicios.php?error=2");
 
 				break;
 			case 'Modificar':
 				if ($datosPantalla['id_servicio'] <> ''){
 					if($datosPantalla['nombre_servicio'] == '' ||
 						$datosPantalla['descripcion'] == ''){
-						header("Location: ../manServicios.php?error=6");
+						header("Location: manServicios.php?error=6");
 						break;
 					}
 				}
 
 				$datosSQL = $datServicios->modificar($datosPantalla);
-				header("Location: ../manServicios.php?error=1");
+				header("Location: manServicios.php?error=1");
 
 				break;
 			default:
-				header("Location: ../manServicios.php?error=4");
+				header("Location: manServicios.php?error=4");
 				break;
 		}
 
 	} catch (Exception $e) {
-		header("Location: ../manServicios.php?error=3");
+		header("Location: manServicios.php?error=3");
 	}
 
 ?>

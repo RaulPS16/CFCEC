@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include("./db/ConexionDB.php");
-	include("datBitacoraErrores.php");
-	include("./utilitarios.php");
+	include_once("ConexionDB.php");
+	include_once("datBitacoraErrores.php");
+	include_once("utilitarios.php");
 
 	/**
 	 * 
@@ -11,7 +11,7 @@
 	 * MYSQLI_ASSOC despliega los encabezados del array y no como posiciones del vector
 	 * 
 	 */
-	class datMonedas 
+	class datTransacciones 
 	{
 		// Se instancian las variables globales para el uso dentro de los metodos
 		var $dbm = null;
@@ -39,8 +39,9 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO monedas VALUES (" . $pValores["id_moneda"] . ",'" . $pValores["nombre_moneda"] . "', 1);";
+				$sql = "INSERT INTO transacciones VALUES (NULL , CURRENT_TIMESTAMP, '" . $pValores['monto'] . "', " . $pValores['id_cuenta'] . "," . $pValores['id_usuario'] . ", " . $pValores['id_tarjeta'] . ", " . $pValores['id_servicio'] . ", " . $pValores['num_documento'] . ", '" . $pValores['detalle_trx'] ."');";
 				$this->dbm->ejecutar($sql);
+
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
@@ -53,23 +54,9 @@
 		}// fin insertar()
 
 		/**
-		* modifica un registro en la tabla el cual los valores son pasados por parametros
+		* no se requiere modificar una transacción, en caso de querer modificar se debe eliminar y volver a registrar
 		*/
-		public function modificar($pValores)
-		{
-			try {
-				$sql = "UPDATE monedas SET id_moneda = " . $pValores["id_moneda"] . ", nombre_moneda = '" . $pValores["nombre_moneda"] . "', estado = " . $pValores["estado"] . ";";
-				$this->dbm->ejecutar($sql);
-			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en modificar" . $e->getMessage());
-				
-			}
-		}//fin modificar()
+		
 
 		/**
 		* elimina un registro en la tabla el cual los valores son pasados por parametros
@@ -77,7 +64,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM monedas WHERE id_moneda = " . $pValores["id_moneda"] . ";";
+				$sql = "DELETE FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . " AND id_usuario = " . $pValores['id_usuario'] . " AND fecha_trx LIKE '" . $pValores['fecha_trx'] . "%';";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -93,11 +80,16 @@
 		/**
 		* Consulta un registro en la tabla el cual los valores son pasados por parametros
 		*/
-		public function consultar($pValores)
+		public function consultarNumDoc($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM monedas WHERE id_moneda = " . $pValores["id_moneda"] . ";";
+				$fecha = date("Y-m-d");
+				$sql = "SELECT * FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . " AND fecha_trx LIKE '%" . $fecha . "%';";
 				$this->dbm->Consultar($sql);
+				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
+				if ($cantidadFilas == 0) {
+					throw new Exception("Registro no existe");
+				}
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -113,10 +105,30 @@
 		/**
 		* Consulta todos los registros en la tabla
 		*/
-		public function consultaLista($pValores)
+		public function consultaLista()
 		{
 			try {
-				$sql = "SELECT * FROM monedas WHERE estado = 1 ORDER BY id_moneda ASC;";
+				$sql = "SELECT * FROM transacciones;";
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				// Carga el vector para hacer el reporte del error
+				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
+				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
+				$this->BitacoraErrores->insertar($this->utilitario->cadena);
+				//genera la exepcion
+				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
+				
+			}
+		} // fin consultLista
+
+		/**
+		* Consulta todos los registros en la tabla
+		*/
+		public function consulTrxUsuario($pValores)
+		{
+			try {
+				$sql = "SELECT * FROM transacciones WHERE id_usuario = " . $pValores["id_usuario"] . " ORDER BY fecha_trx ASC;";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -130,10 +142,10 @@
 			}
 		}
 
-		public function consultaListaDif($pValores)
+		public function consulTrxUsuarioXFecha($pValores, $pIndice = 0, $pResultadoPorPagina)
 		{
 			try {
-				$sql = "SELECT * FROM monedas WHERE estado = 1 AND  id_moneda <> " . $pValores['moneda'] . ";";
+				$sql = "SELECT * FROM transacciones WHERE id_usuario = " . $pValores["id_usuario"] . " AND fecha_trx LIKE '" . $pValores["fecha_trx"] . "%' ORDER BY fecha_trx ASC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -146,6 +158,22 @@
 				
 			}
 		}
+
+		public function consultarContador($pValores)
+		{
+			try {
+				$sql = "SELECT COUNT(*) AS total FROM transacciones WHERE fecha_trx LIKE '" . $pValores["fecha_trx"] . "%'";				
+				if ($pValores["id_usuario"] <> '') {
+					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
+				}
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				$error = "NO hay datos";
+				return $error;
+				
+			}
+		}// fin consultarContador
 
 	}
 

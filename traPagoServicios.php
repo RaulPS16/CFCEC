@@ -27,7 +27,7 @@
 			echo "Se a producido un error";
 		}
 
-	include_once("dat/datServicios.php");
+	include_once("datServicios.php");
 	$datServicios = new datServicios();
 	$listaServicios = $datServicios->consultaLista();
 	?>

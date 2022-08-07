@@ -1,6 +1,6 @@
 <?php
 
-include_once("./dat/datcontabilidad.php");
+include_once("datcontabilidad.php");
 
 class paginacion extends datContabilidad{
 

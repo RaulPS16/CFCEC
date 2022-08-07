@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("../db/ConexionDB.php");
+	include_once("ConexionDB.php");
 	include_once("datBitacoraErrores.php");
-	include_once("../utilitarios.php");
+	include_once("utilitarios.php");
 
 	/**
 	 * 
@@ -11,7 +11,7 @@
 	 * MYSQLI_ASSOC despliega los encabezados del array y no como posiciones del vector
 	 * 
 	 */
-	class datTransacciones 
+	class datTarjetas 
 	{
 		// Se instancian las variables globales para el uso dentro de los metodos
 		var $dbm = null;
@@ -39,7 +39,12 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO transacciones VALUES (NULL , CURRENT_TIMESTAMP, '" . $pValores['monto'] . "', " . $pValores['id_cuenta'] . "," . $pValores['id_usuario'] . ", " . $pValores['id_tarjeta'] . ", " . $pValores['id_servicio'] . ", " . $pValores['num_documento'] . ", '" . $pValores['detalle_trx'] ."');";
+				//toma la fecha actual y le suma 1500 días
+				$vencimiento = date('Y-m-d',strtotime(date('Y-m-d')."+ 1500 days"));
+				//valor random entre el 0 y 999
+				$cvv = rand(0, 999);
+
+				$sql = "INSERT INTO tarjetas VALUES (NULL ," . $pValores["id_cuenta"] . ",'" . $vencimiento . "', " . $pValores['estado'] . "," . $cvv . ");";
 				$this->dbm->ejecutar($sql);
 
 			} catch (Exception $e) {
@@ -54,9 +59,23 @@
 		}// fin insertar()
 
 		/**
-		* no se requiere modificar una transacción, en caso de querer modificar se debe eliminar y volver a registrar
+		* modifica un registro en la tabla el cual los valores son pasados por parametros
 		*/
-		
+		public function modificar($pValores)
+		{
+			try {
+				$sql = "UPDATE tarjetas SET id_cuenta = " . $pValores["id_cuenta"] . ", estado = '" . $pValores["estado"] . "' WHERE id_tarjeta = " . $pValores["id_tarjeta"] . ";";
+				$this->dbm->ejecutar($sql);
+			} catch (Exception $e) {
+				// Carga el vector para hacer el reporte del error
+				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
+				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
+				$this->BitacoraErrores->insertar($this->utilitario->cadena);
+				//genera la exepcion
+				throw new Exception("Error en metodo en modificar" . $e->getMessage());
+				
+			}
+		}//fin modificar()
 
 		/**
 		* elimina un registro en la tabla el cual los valores son pasados por parametros
@@ -64,7 +83,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . " AND id_usuario = " . $pValores['id_usuario'] . " AND fecha_trx LIKE '" . $pValores['fecha_trx'] . "%';";
+				$sql = "DELETE FROM tarjetas WHERE id_tarjeta = " . $pValores["id_tarjeta"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -80,11 +99,10 @@
 		/**
 		* Consulta un registro en la tabla el cual los valores son pasados por parametros
 		*/
-		public function consultarNumDoc($pValores)
+		public function consultar($pValores)
 		{
 			try {
-				$fecha = date("Y-m-d");
-				$sql = "SELECT * FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . " AND fecha_trx LIKE '%" . $fecha . "%';";
+				$sql = "SELECT * FROM tarjetas WHERE id_tarjeta = " . $pValores["id_tarjeta"] . ";";
 				$this->dbm->Consultar($sql);
 				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
 				if ($cantidadFilas == 0) {
@@ -108,27 +126,7 @@
 		public function consultaLista()
 		{
 			try {
-				$sql = "SELECT * FROM transacciones;";
-				$this->dbm->Consultar($sql);
-				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
-			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
-				
-			}
-		} // fin consultLista
-
-		/**
-		* Consulta todos los registros en la tabla
-		*/
-		public function consulTrxUsuario($pValores)
-		{
-			try {
-				$sql = "SELECT * FROM transacciones WHERE id_usuario = " . $pValores["id_usuario"] . " ORDER BY fecha_trx ASC;";
+				$sql = "SELECT * FROM tarjetas;";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -141,39 +139,6 @@
 				
 			}
 		}
-
-		public function consulTrxUsuarioXFecha($pValores, $pIndice = 0, $pResultadoPorPagina)
-		{
-			try {
-				$sql = "SELECT * FROM transacciones WHERE id_usuario = " . $pValores["id_usuario"] . " AND fecha_trx LIKE '" . $pValores["fecha_trx"] . "%' ORDER BY fecha_trx ASC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . ";";
-				$this->dbm->Consultar($sql);
-				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
-			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
-				
-			}
-		}
-
-		public function consultarContador($pValores)
-		{
-			try {
-				$sql = "SELECT COUNT(*) AS total FROM transacciones WHERE fecha_trx LIKE '" . $pValores["fecha_trx"] . "%'";				
-				if ($pValores["id_usuario"] <> '') {
-					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
-				}
-				$this->dbm->Consultar($sql);
-				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
-			} catch (Exception $e) {
-				$error = "NO hay datos";
-				return $error;
-				
-			}
-		}// fin consultarContador
 
 	}
 

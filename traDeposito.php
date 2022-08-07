@@ -23,7 +23,7 @@
 	include("menu.php");
 
 		$fechaActual = date("Y-m-d H:i:s");
-		include_once("procesos/muestraErrores.php");
+		include_once("muestraErrores.php");
 		$retornoDatos = array("num_documento" => "", 
 			"fecha_trx" => "", 
 			"id_cuenta" => "", 

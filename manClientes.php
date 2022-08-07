@@ -20,7 +20,7 @@
 
 	<?php
 	include("menu.php");
-	include_once("procesos/muestraErrores.php");
+	include_once("muestraErrores.php");
 	$retornoDatos = array("id_cliente" => "", 
 		"nombre" => "", 
 		"apellidos" => "", 

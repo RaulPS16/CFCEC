@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("../db/ConexionDB.php");
-	include_once("datBitacoraErrores.php");
-	include_once("../utilitarios.php");
+	include("ConexionDB.php");
+	include("datBitacoraErrores.php");
+	include("utilitarios.php");
 
 	/**
 	 * 
@@ -11,7 +11,7 @@
 	 * MYSQLI_ASSOC despliega los encabezados del array y no como posiciones del vector
 	 * 
 	 */
-	class datClientes 
+	class datMonedas 
 	{
 		// Se instancian las variables globales para el uso dentro de los metodos
 		var $dbm = null;
@@ -39,7 +39,7 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO clientes VALUES (" . $pValores["id_cliente"] . ",'" . $pValores["nombre"] . "','" . $pValores["apellidos"] . "','" . $pValores["fecha_nacimiento"] . "','" . $pValores["tipo_cliente"] . "','" . $pValores["direccion_fisica"] . "','" . $pValores["email"] . "');";
+				$sql = "INSERT INTO monedas VALUES (" . $pValores["id_moneda"] . ",'" . $pValores["nombre_moneda"] . "', 1);";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -58,7 +58,7 @@
 		public function modificar($pValores)
 		{
 			try {
-				$sql = "UPDATE clientes SET nombre = '" . $pValores["nombre"] . "', apellidos = '" . $pValores["apellidos"] . "', fecha_nacimiento = '" . $pValores["fecha_nacimiento"] . "', tipo_cliente = '" . $pValores["tipo_cliente"] . "', direccion_fisica = '" . $pValores["direccion_fisica"] . "', email = '" . $pValores["email"] . "' WHERE id_cliente = " . $pValores["id_cliente"] . ";";
+				$sql = "UPDATE monedas SET id_moneda = " . $pValores["id_moneda"] . ", nombre_moneda = '" . $pValores["nombre_moneda"] . "', estado = " . $pValores["estado"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -77,7 +77,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM clientes WHERE id_cliente = " . $pValores["id_cliente"] . ";";
+				$sql = "DELETE FROM monedas WHERE id_moneda = " . $pValores["id_moneda"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -96,7 +96,7 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM clientes WHERE id_cliente = " . $pValores["id_cliente"] . ";";
+				$sql = "SELECT * FROM monedas WHERE id_moneda = " . $pValores["id_moneda"] . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -113,10 +113,27 @@
 		/**
 		* Consulta todos los registros en la tabla
 		*/
-		public function consultaLista()
+		public function consultaLista($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM clientes;";
+				$sql = "SELECT * FROM monedas WHERE estado = 1 ORDER BY id_moneda ASC;";
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				// Carga el vector para hacer el reporte del error
+				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
+				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
+				$this->BitacoraErrores->insertar($this->utilitario->cadena);
+				//genera la exepcion
+				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
+				
+			}
+		}
+
+		public function consultaListaDif($pValores)
+		{
+			try {
+				$sql = "SELECT * FROM monedas WHERE estado = 1 AND  id_moneda <> " . $pValores['moneda'] . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {

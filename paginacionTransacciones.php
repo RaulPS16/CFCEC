@@ -1,6 +1,6 @@
 <?php
 
-include_once("./dat/datTransacciones.php");
+include_once("datTransacciones.php");
 
 class paginacionTransacciones extends datTransacciones{
 

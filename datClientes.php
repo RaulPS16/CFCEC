@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("../db/ConexionDB.php");
+	include_once("ConexionDB.php");
 	include_once("datBitacoraErrores.php");
-	include_once("../utilitarios.php");
+	include_once("utilitarios.php");
 
 	/**
 	 * 
@@ -11,7 +11,7 @@
 	 * MYSQLI_ASSOC despliega los encabezados del array y no como posiciones del vector
 	 * 
 	 */
-	class datServicios 
+	class datClientes 
 	{
 		// Se instancian las variables globales para el uso dentro de los metodos
 		var $dbm = null;
@@ -39,9 +39,8 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO servicios VALUES (" . $pValores["id_servicio"] . " ,'" . $pValores["nombre_servicio"] . "','" . $pValores["descripcion"] . "');";
+				$sql = "INSERT INTO clientes VALUES (" . $pValores["id_cliente"] . ",'" . $pValores["nombre"] . "','" . $pValores["apellidos"] . "','" . $pValores["fecha_nacimiento"] . "','" . $pValores["tipo_cliente"] . "','" . $pValores["direccion_fisica"] . "','" . $pValores["email"] . "');";
 				$this->dbm->ejecutar($sql);
-
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
@@ -59,7 +58,7 @@
 		public function modificar($pValores)
 		{
 			try {
-				$sql = "UPDATE servicios SET nombre_servicio = '" . $pValores["nombre_servicio"] . "', descripcion = '" . $pValores["descripcion"] . "' WHERE id_servicio = " . $pValores["id_servicio"] . ";";
+				$sql = "UPDATE clientes SET nombre = '" . $pValores["nombre"] . "', apellidos = '" . $pValores["apellidos"] . "', fecha_nacimiento = '" . $pValores["fecha_nacimiento"] . "', tipo_cliente = '" . $pValores["tipo_cliente"] . "', direccion_fisica = '" . $pValores["direccion_fisica"] . "', email = '" . $pValores["email"] . "' WHERE id_cliente = " . $pValores["id_cliente"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -78,7 +77,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM servicios WHERE id_servicio = " . $pValores["id_servicio"] . ";";
+				$sql = "DELETE FROM clientes WHERE id_cliente = " . $pValores["id_cliente"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -97,12 +96,8 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM servicios WHERE id_servicio = " . $pValores["id_servicio"] . ";";
+				$sql = "SELECT * FROM clientes WHERE id_cliente = " . $pValores["id_cliente"] . ";";
 				$this->dbm->Consultar($sql);
-				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
-				if ($cantidadFilas == 0) {
-					throw new Exception("Registro no existe");
-				}
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -110,8 +105,7 @@
 				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
 				$this->BitacoraErrores->insertar($this->utilitario->cadena);
 				//genera la exepcion
-				// se comenta para no generar una exepción en los procesos
-				//throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
+				throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
 				
 			}
 		}// fin consultar
@@ -122,7 +116,7 @@
 		public function consultaLista()
 		{
 			try {
-				$sql = "SELECT * FROM servicios;";
+				$sql = "SELECT * FROM clientes;";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {

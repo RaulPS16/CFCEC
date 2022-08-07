@@ -21,7 +21,7 @@
 
 	<?php
 	include("menu.php");
-	include_once("procesos/paginacion.php");
+	include_once("paginacion.php");
 	
 	// Valida si en la URL está en la fecha_contable para mostrar la tablas
 	$mostrartabla = FALSE;

@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("../db/ConexionDB.php");
+	include_once("ConexionDB.php");
 	include_once("datBitacoraErrores.php");
-	include_once("../utilitarios.php");
+	include_once("utilitarios.php");
 
 	/**
 	 * 
@@ -11,7 +11,7 @@
 	 * MYSQLI_ASSOC despliega los encabezados del array y no como posiciones del vector
 	 * 
 	 */
-	class datParam_contable
+	class datServicios 
 	{
 		// Se instancian las variables globales para el uso dentro de los metodos
 		var $dbm = null;
@@ -39,8 +39,9 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO param_contable VALUES (" . $pValores["cuenta_contable"] . ",'" . $pValores["descripcion"] . "',CURRENT_TIMESTAMP, 1,'" . $pValores["id_servicio"] ."','" . $pValores["cr_db"] . "');";
+				$sql = "INSERT INTO servicios VALUES (" . $pValores["id_servicio"] . " ,'" . $pValores["nombre_servicio"] . "','" . $pValores["descripcion"] . "');";
 				$this->dbm->ejecutar($sql);
+
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
@@ -58,7 +59,7 @@
 		public function modificar($pValores)
 		{
 			try {
-				$sql = "UPDATE param_contable SET descripcion = '" . $pValores["descripcion"] . "', estado = " . $pValores["estado"] . ", id_servicio = '" . $pValores["id_servicio"] . "', cr_db = '" . $pValores["cr_db"] . "';";
+				$sql = "UPDATE servicios SET nombre_servicio = '" . $pValores["nombre_servicio"] . "', descripcion = '" . $pValores["descripcion"] . "' WHERE id_servicio = " . $pValores["id_servicio"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -77,7 +78,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM param_contable WHERE cuenta_contable = " . $pValores["cuenta_contable"] . ";";
+				$sql = "DELETE FROM servicios WHERE id_servicio = " . $pValores["id_servicio"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -96,8 +97,12 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM param_contable WHERE cuenta_contable = " . $pValores["cuenta_contable"] . ";";
+				$sql = "SELECT * FROM servicios WHERE id_servicio = " . $pValores["id_servicio"] . ";";
 				$this->dbm->Consultar($sql);
+				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
+				if ($cantidadFilas == 0) {
+					throw new Exception("Registro no existe");
+				}
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -105,7 +110,8 @@
 				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
 				$this->BitacoraErrores->insertar($this->utilitario->cadena);
 				//genera la exepcion
-				throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
+				// se comenta para no generar una exepción en los procesos
+				//throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
 				
 			}
 		}// fin consultar
@@ -116,7 +122,7 @@
 		public function consultaLista()
 		{
 			try {
-				$sql = "SELECT * FROM param_contable WHERE estado = 1 ORDER BY fecha_creación ASC;";
+				$sql = "SELECT * FROM servicios;";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -129,26 +135,6 @@
 				
 			}
 		}
-
-		/**
-		* Consulta por id_servicio
-		*/
-		public function consultarXServicio($pValores)
-		{
-			try {
-				$sql = "SELECT * FROM param_contable WHERE id_servicio = " . $pValores["id_servicio"] . ";";
-				$this->dbm->Consultar($sql);
-				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
-			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
-				
-			}
-		}// fin consultar
 
 	}
 

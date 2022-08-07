@@ -5,9 +5,9 @@
         /**
 		 * Se incluyen todos los dat necesarios
 		 */
-        include_once("../dat/datcontabilidad.php");
-        include_once("../dat/datServicios.php");
-        include_once("../utilitarios.php");
+        include_once("datcontabilidad.php");
+        include_once("datServicios.php");
+        include_once("utilitarios.php");
 
         /**
 		 * Se instancian las clases
@@ -77,10 +77,10 @@
         $datosSQL = serialize($datosSQL);
         $datosSQL= urlencode($datosSQL);
 
-        header("Location: ../conContabilidad.php?datosSQL=". $datosSQL);
+        header("Location: conContabilidad.php?datosSQL=". $datosSQL);
 
     }catch (Exception $th) {
-        header("Location: ../conContabilidad.php?datosSQL=0");
+        header("Location: conContabilidad.php?datosSQL=0");
     }
 
 

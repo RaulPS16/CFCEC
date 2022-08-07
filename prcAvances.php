@@ -8,14 +8,14 @@
 		 * transacciones y las reglas de negocio
 		 * 
 		 */
-		include_once("../dat/datTransacciones.php");
-		include_once("../dat/datParam_contable.php");
-		include_once("../dat/datcontabilidad.php");
-		include_once("../dat/datServicios.php");
-		include_once("../dat/datCuentas.php");
-		include_once("../dat/datTarjetas.php");
-		include_once("../dat/datClientes.php");
-		include_once("../utilitarios.php");
+		include_once("datTransacciones.php");
+		include_once("datParam_contable.php");
+		include_once("datcontabilidad.php");
+		include_once("datServicios.php");
+		include_once("datCuentas.php");
+		include_once("datTarjetas.php");
+		include_once("datClientes.php");
+		include_once("utilitarios.php");
 		/**
 		 * 
 		 * Se instancian las clases de los dat
@@ -58,7 +58,7 @@
 			$datosPantalla['fecha_trx'] == '' ||
 			$datosPantalla['id_tarjeta'] == '' ||
 			$datosPantalla['monto'] == '') {
-			header("Location: ../traAvances.php?error=4");
+			header("Location: traAvances.php?error=4");
 		}
 
 		/**
@@ -66,7 +66,7 @@
 		 */
 			$validaDatos = $datServicios->Consultar($datosPantalla);
 			if ($validaDatos == '') {
-				header("Location: ../traAvances.php?error=8");
+				header("Location: traAvances.php?error=8");
 			}
 		/**
 		 * Valida que la cuenta exista si viaja en datosPantalla
@@ -74,10 +74,10 @@
 			try {
 				$validaDatos = $datTarjetas->consultar($datosPantalla);
 				if ($validaDatos == '') {
-					header("Location: ../traAvances.php?error=15");
+					header("Location: traAvances.php?error=15");
 				}
 			} catch (Exception $th) {
-				header("Location: ../traAvances.php?error=15");
+				header("Location: traAvances.php?error=15");
 			}
 
 		/**
@@ -90,7 +90,7 @@
 			try {
 				$validaDatos = $datTransacciones->consultarNumDoc($datosPantalla);
 				if ($validaDatos <> '') {
-					header("Location: ../traAvances.php?error=10");
+					header("Location: traAvances.php?error=10");
 				}
 			}catch (Exception $th) {
 				// la idea es que si genera error es porque no encuentra el registro por lo que no se crea una excepción
@@ -102,11 +102,11 @@
 			try {
 				$datosContables = $datParam_contable->consultarXServicio($datosPantalla);
 				if (empty($datosContables)) {
-					header("Location: ../traAvances.php?error=11");
+					header("Location: traAvances.php?error=11");
 				}
 			} catch (Exception $e) {
 				//Si no existen parametros devuelve error
-				header("Location: ../traAvances.php?error=11");
+				header("Location: traAvances.php?error=11");
 			}
 		/**
 		 * Quita caracteres de $
@@ -136,16 +136,16 @@
 						$datosPantalla["cuenta_contable"] = $value["cuenta_contable"];
 						$aplicaConta = $datContabilidad->insertar($datosPantalla);
 					}
-                    header("Location: ../traAvances.php?error=13");
+                    header("Location: traAvances.php?error=13");
 				}
 				
 
 			} catch (Exception $th) {
-				header("Location: ../traAvances.php?error=12");
+				header("Location: traAvances.php?error=12");
 			}
 
 	} catch (Exception $e) {
-		header("Location: ../traAvances.php?error=3");
+		header("Location: traAvances.php?error=3");
 	}
 
 ?>

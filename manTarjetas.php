@@ -22,7 +22,7 @@
 	include("menu.php");
 
 		$fechaActual = date("Y-m-d");
-		include_once("procesos/muestraErrores.php");
+		include_once("muestraErrores.php");
 		$retornoDatos = array("id_tarjeta" => "", "id_cuenta" => "", "estado" => "");
 		$fechaActual = date("Y-m-d");
 		//&& $_GET['error'] <> 0

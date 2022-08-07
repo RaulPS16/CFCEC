@@ -20,7 +20,7 @@
 
 	<?php
 	include("menu.php");
-	include_once("procesos/muestraErrores.php");
+	include_once("muestraErrores.php");
 		$retornoDatos = array("id_servicio" => "", "nombre_servicio" => "", "descripcion" => "");
 		$fechaActual = date("Y-m-d");
 		//&& $_GET['error'] <> 0

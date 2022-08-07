@@ -1,6 +1,6 @@
 <?php
-    include_once("../dat/datTransacciones.php");
-    include_once("../dat/datContabilidad.php");
+    include_once("datTransacciones.php");
+    include_once("datContabilidad.php");
 
     $datTransaccion = new datTransacciones();
     $datConta = new datContabilidad();
@@ -12,5 +12,5 @@
 
     $datTransaccion->eliminar($datosReversar);
     $datConta->eliminar($datosReversar);
-    header("Location: ../traReversion.php?error=2");
+    header("Location: traReversion.php?error=2");
 ?>
