@@ -32,7 +32,7 @@ class paginacionTransacciones extends datTransacciones{
         foreach ($datosConsultados as $key => $value) {
             // arma la URL para luego hacer la reversión
             $fecha = substr($value["fecha_trx"],0,10);
-            $this->urlReversion = "procesos/prcReversion.php?id_usuario=" . $value['id_usuario'] . 
+            $this->urlReversion = "prcReversion.php?id_usuario=" . $value['id_usuario'] . 
             "&fecha_trx=" . $fecha . 
             "&num_documento=" . $value["num_documento"] ;
             ?>
