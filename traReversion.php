@@ -21,14 +21,26 @@
 
 	<?php
 	include("menu.php");
+	include_once("procesos/muestraErrores.php");
+	include_once("procesos/paginacionTransacciones.php");
 
-		$fechaActual = date("Y-m-d");
-		if (isset($_GET['error']) && $_GET['error'] <> 0) {
-			echo "Se a producido un error";
-		}
+	$fechaActual = date("Y-m-d");
+	$valores = array(
+		"fecha_trx" => $fechaActual,
+		"id_usuario" => "604320137");
 
+	$paginas = new paginacionTransacciones(2, $valores);
+	
+
+	if (isset($_GET['error']) ) {
+		$muestraErrores = new muestraErrores($_GET['error']);
+	}
+
+	if (isset($_GET['datosSQL'])) {
+		$retornoDatos = unserialize($_GET['datosSQL']);
+	}
 	?>
-	<div class="container mant">
+	<div class="container">
 
 		<h2 class="text-center titulos">Reversión de movimientos</h2>
 
@@ -37,53 +49,31 @@
 			<table class="table table-striped">
 			  <thead  class="text-center">
 			    <tr>
-			      <th scope="col">Documento</th>
-			      <th scope="col">CR / DB</th>
-			      <th scope="col">Usuario</th>
+			      <th scope="col">Fecha y hora</th>
+			      <th scope="col">Num tarjeta</th>
+			      <th scope="col">Num cuenta</th>
+				  <th scope="col">Servicio</th>
+				  <th scope="col">Documento</th>
+				  <th scope="col">Detalle</th>
+				  <th scope="col">monto</th>
 			      <th scope="col">Reversar</th>
 			    </tr>
 			  </thead>
 			  <tbody  class="text-center">
-			    <tr>
-			      <th scope="row">1</th>
-			      <td>CR</td>
-			      <td>102340567</td>
-			      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Reversar</button></td>
-			      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					  <div class="modal-dialog">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h5 class="modal-title" id="exampleModalLabel">Confirmar reversión</h5>
-					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					      </div>
-					      <div class="modal-body">
-					        ¿Quiere hacer la resersión?
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					        <input type="submit" name="btnReversar" class="btn btn-link" value="Reversar">
-					      </div>
-					    </div>
-					  </div>
-					</div>
-			    </tr>
+			  <nav aria-label="Page navigation example">
+                <?Php
+					$paginas->mostrar();
+                ?>
+				</nav>
 			  </tbody>
 			</table>
-
+			<?Php
+				$paginas->mostrarPaginas();
+            ?>
 		</form>
 		
 	</div>
-	
-	<?php
-		
-		if (isset($_GET['datosSQL'])) {
-			$datos = unserialize($_GET['datosSQL']);
-			print_r( $datos );
-			print_r("nombre: ". $datos['nombre']);
-		}
 
-
-	?>
 	<script type="text/javascript" src="js/validaForms.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jQueryMoney.js"></script>

@@ -77,7 +77,7 @@
 			<div class="col-md-8"></div>
 			<div class="col-md-12">
 				<div class="form-floating">
-					<textarea name="detalle_trx" class="form-control" id="detalle_trx" placeholder="Deposito por pago"></textarea>
+					<textarea name="detalle_trx" class="form-control" id="detalle_trx" placeholder="Deposito por pago" maxlength="50"></textarea>
 					<label for="detalle_trx">Descripción del movimiento</label>
 				</div>
 			</div>

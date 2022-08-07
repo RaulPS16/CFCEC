@@ -64,7 +64,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . " AND id_usuario = " . $pValores['id_usuario'] . " AND fecha_trx = " . $pValores['fecha_trx'] . ";";
+				$sql = "DELETE FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . " AND id_usuario = " . $pValores['id_usuario'] . " AND fecha_trx LIKE '" . $pValores['fecha_trx'] . "%';";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -83,7 +83,8 @@
 		public function consultarNumDoc($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . ";";
+				$fecha = date("Y-m-d");
+				$sql = "SELECT * FROM transacciones WHERE num_documento = " . $pValores["num_documento"] . " AND fecha_trx LIKE '%" . $fecha . "%';";
 				$this->dbm->Consultar($sql);
 				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
 				if ($cantidadFilas == 0) {
@@ -141,10 +142,10 @@
 			}
 		}
 
-		public function consulTrxUsuarioXFecha($pValores)
+		public function consulTrxUsuarioXFecha($pValores, $pIndice = 0, $pResultadoPorPagina)
 		{
 			try {
-				$sql = "SELECT * FROM transacciones WHERE id_usuario = " . $pValores["id_usuario"] . " AND fecha_trx = " . $pValores["fecha_trx"] . " ORDER BY fecha_trx ASC;";
+				$sql = "SELECT * FROM transacciones WHERE id_usuario = " . $pValores["id_usuario"] . " AND fecha_trx LIKE '" . $pValores["fecha_trx"] . "%' ORDER BY fecha_trx ASC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -157,6 +158,22 @@
 				
 			}
 		}
+
+		public function consultarContador($pValores)
+		{
+			try {
+				$sql = "SELECT COUNT(*) AS total FROM transacciones WHERE fecha_trx LIKE '" . $pValores["fecha_trx"] . "%'";				
+				if ($pValores["id_usuario"] <> '') {
+					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
+				}
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				$error = "NO hay datos";
+				return $error;
+				
+			}
+		}// fin consultarContador
 
 	}
 

@@ -114,6 +114,13 @@
 						</div>
 					<?php
 					break;
+				case '15':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Tarjeta no existe
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">

@@ -1,8 +1,8 @@
 <?php
 	// se incluyen los archivos utilizados dentro de la programación
-	include_once("./db/ConexionDB.php");
+	include_once("../db/ConexionDB.php");
 	include_once("datBitacoraErrores.php");
-	include_once("./utilitarios.php");
+	include_once("../utilitarios.php");
 
 	/**
 	 * 
@@ -66,7 +66,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM contabilidad WHERE num_documento = " . $pValores["num_documento"] . " AND fecha = '" . $pValores["fecha"] . "';";
+				$sql = "DELETE FROM contabilidad WHERE num_documento = " . $pValores["num_documento"] . " AND fecha like '" . $pValores["fecha_trx"] . "%';";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error

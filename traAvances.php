@@ -22,57 +22,68 @@
 	<?php
 	include("menu.php");
 
-		$fechaActual = date("Y-m-d");
-		if (isset($_GET['error']) && $_GET['error'] <> 0) {
-			echo "Se a producido un error";
-		}
+	$fechaActual = date("Y-m-d H:i:s");
+	include_once("procesos/muestraErrores.php");
+	$retornoDatos = array("num_documento" => "", 
+		"fecha_trx" => "", 
+		"id_cuenta" => "", 
+		"monto" => "", 
+		"detalle_trx" => "");
+	//&& $_GET['error'] <> 0
+	if (isset($_GET['error']) ) {
+		$muestraErrores = new muestraErrores($_GET['error']);
+	}
+
+	if (isset($_GET['datosSQL'])) {
+		$retornoDatos = unserialize($_GET['datosSQL']);
+	}
 
 	?>
 	<div class="container mant">
 
 		<h2 class="text-center titulos">Avances de efectivo</h2>
 		
-		<form action="#" method="POST" class="needs-validation row" novalidate>
-		<div class="col-md-3">
-			<div class="form-floating">
-				<input type="number" name="idCliente" class="form-control" id="idCliente" placeholder="12345678">
-				<label for="idCliente">Numero de documento</label>
-			</div>
-		</div>
-		<div class="col-md-3">
+		<form action="procesos/prcAvances.php" method="POST" class="needs-validation row" novalidate>
+		<div class="col-sm-12">
 			<div class="has-validation form-floating">
-				<input type="text" name="fechaActual" class="form-control" id="fechaActual" placeholder="2000-01-01" value="<?php print($fechaActual);?>" aria-label="Disabled input example"  required disabled>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="has-validation form-floating">
-				<input type="number" name="idCuentaTarjeta" class="form-control" id="idCuentaTarjeta" placeholder="23534656"  required>
-				<label for="idCuentaTarjeta">Cuenta o tarjeta</label>
-				<div class="invalid-feedback">
-        			Ingrese una cuenta o tarjeta
-      			</div>
+				<input type="text" name="fecha_trx" class="form-control visually-hidden" id="fecha_trx" placeholder="2000-01-01" value="<?php print($fechaActual);?>"   required >
 			</div>
 		</div>
 		<div class="col-md-4">
+			<div class="form-floating">
+				<input type="number" name="num_documento" class="form-control" id="num_documento" placeholder="12345678">
+				<label for="num_documento">Numero de documento</label>
+			</div>
+		</div>
+		
+		<div class="col-md-8">
 			<div class="has-validation form-floating">
-				<input type="text" name="currency-field" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$1,000,000.00" class="form-control form-meney-control">
+				<input type="number" name="id_tarjeta" class="form-control" id="id_tarjeta" placeholder="23534656"  required>
+				<label for="id_tarjeta">Numero de tarjeta</label>
+				<div class="invalid-feedback">
+        			Ingrese una tarjeta
+      			</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div class="has-validation form-floating">
+				<input type="text" name="monto" id="currency-field" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$1,000,000.00" class="form-control form-meney-control">
 				<label for="montoTrx">Monto de la transacción</label>
 				<div class="invalid-feedback">
         			Ingrese un monto
       			</div>
 			</div>
 		</div>
-		<div class="col-md-4"></div>
-		<div class="col-md-4">
+		<div class="col-md-5">
 			<div class="form-floating">
-				<input type="number" name="idCliente" class="form-control" id="idCliente" placeholder="23534656"  required>
-				<label for="idCliente">Identificación del cliente</label>
+				<input type="number" name="id_cliente" class="form-control" id="id_cliente" placeholder="23534656"  required>
+				<label for="id_cliente">Identificación del cliente</label>
 			</div>
 		</div>
 		<div class="col-md-12">
 			<div class="form-floating">
-				<textarea name="descripción" class="form-control" id="descripción" placeholder="Deposito por pago"></textarea>
-				<label for="descripción">Descripción del movimiento</label>
+				<textarea name="detalle_trx" class="form-control" id="detalle_trx" placeholder="Deposito por pago" maxlength="50"></textarea>
+				<label for="detalle_trx">Descripción del movimiento</label>
 			</div>
 		</div>
 
@@ -87,16 +98,6 @@
 
 	</div>
 	
-	<?php
-		
-		if (isset($_GET['datosSQL'])) {
-			$datos = unserialize($_GET['datosSQL']);
-			print_r( $datos );
-			print_r("nombre: ". $datos['nombre']);
-		}
-
-
-	?>
 	<script type="text/javascript" src="js/validaForms.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jQueryMoney.js"></script>
