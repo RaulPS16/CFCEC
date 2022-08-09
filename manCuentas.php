@@ -42,7 +42,7 @@
 
 		<h2 class="text-center titulos">Mantenimiento de Cuentas</h2>
 		
-		<form action="procesos/prcCuentas.php" method="POST" class="needs-validation row" novalidate>
+		<form action="prcCuentas.php" method="POST" class="needs-validation row" novalidate>
 		<div class="col-md-12">
 			<div class="has-validation form-floating">
 				<input type="number" name="id_cuenta_original" class="visually-hidden" id="id_cuenta_original" value="<?php echo($retornoDatos['id_cuenta']); ?>">

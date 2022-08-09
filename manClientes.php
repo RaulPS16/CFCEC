@@ -46,7 +46,7 @@
 
 		<h2 class="text-center titulos">Mantenimiento de clientes</h2>
 		
-		<form action="procesos/prcClientes.php" method="POST" class="needs-validation row" novalidate>
+		<form action="prcClientes.php" method="POST" class="needs-validation row" novalidate>
 		<div class="col-md-12">
 			<div class="has-validation form-floating">
 				<input type="text" name="id_cliente" class="form-control" id="id_cliente" placeholder="102340567"value="<?php echo($retornoDatos['id_cliente']) ?>"  required>

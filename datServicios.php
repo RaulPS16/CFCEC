@@ -115,6 +115,7 @@
 				
 			}
 		}// fin consultar
+		
 
 		/**
 		* Consulta todos los registros en la tabla
@@ -134,7 +135,24 @@
 				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
 				
 			}
-		}
+		}// fin consultaLista
+
+		public function consultaListaOrder($pValores)
+		{
+			try {
+				$sql = "SELECT *, IF(id_servicio = " . $pValores["id_servicio"] . ",1,3) AS 'orden' from servicios ORDER BY orden, id_servicio ASC;";
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				// Carga el vector para hacer el reporte del error
+				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
+				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
+				$this->BitacoraErrores->insertar($this->utilitario->cadena);
+				//genera la exepcion
+				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
+				
+			}
+		}// fin consultaLista
 
 	}
 

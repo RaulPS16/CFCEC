@@ -40,17 +40,16 @@
 		 */
 		$datosPantalla = array("num_documento" => $_POST['num_documento'], 
 			"fecha_trx" => $_POST['fecha_trx'], 
-			"id_tarjeta" => $_POST['id_tarjeta'], 
+			"id_cuenta" => "0", 
 			"monto" => $_POST['monto'], 
-            "id_cliente" =>  $_POST['id_cliente'],
-			"detalle_trx" => $_POST['detalle_trx'], 
-            "id_cuenta" => "0",
-			"id_servicio" => "2", 
+			"detalle_trx" => "", 
+			"id_tarjeta" => $_POS['id_tarjeta'],
+			"id_servicio" => $_POST['id_Servicio'], 
 			"id_usuario" => "604320137",
-			"modulo" => "traAvances",
+			"modulo" => "traPagoServicios",
 			"cr_db" => "",
 			"cuenta_contable" => "");
-        //print_r($datosPantalla);
+
 		/**
 		 *  Valida que los campos obligatorios no estén en blanco
 		 */
@@ -58,7 +57,7 @@
 			$datosPantalla['fecha_trx'] == '' ||
 			$datosPantalla['id_tarjeta'] == '' ||
 			$datosPantalla['monto'] == '') {
-			header("Location: traAvances.php?error=4");
+			header("Location: traPagoServicios.php?error=4");
 		}
 
 		/**
@@ -66,19 +65,19 @@
 		 */
 			$validaDatos = $datServicios->Consultar($datosPantalla);
 			if ($validaDatos == '') {
-				header("Location: traAvances.php?error=8");
+				header("Location: traPagoServicios.php?error=8");
 			}
 		/**
 		 * Valida que la tarjeta exista si viaja en datosPantalla
 		 */
-			try {
-				$validaDatos = $datTarjetas->consultar($datosPantalla);
-				if ($validaDatos == '') {
-					header("Location: traAvances.php?error=15");
-				}
-			} catch (Exception $th) {
-				header("Location: traAvances.php?error=15");
-			}
+        try {
+            $validaDatos = $datTarjetas->consultar($datosPantalla);
+            if ($validaDatos == '') {
+                header("Location: traAvances.php?error=15");
+            }
+        } catch (Exception $th) {
+            header("Location: traAvances.php?error=15");
+        }
 
 		/**
 		 * Valida si la tarjeta exita si viaja en datosPantalla
@@ -90,10 +89,9 @@
 			try {
 				$validaDatos = $datTransacciones->consultarNumDoc($datosPantalla);
 				if ($validaDatos <> '') {
-					header("Location: traAvances.php?error=10");
+					header("Location: traPagoServicios.php?error=10");
 				}
 			}catch (Exception $th) {
-				//echo "no existe documento";
 				// la idea es que si genera error es porque no encuentra el registro por lo que no se crea una excepción
 				
 			}
@@ -103,11 +101,11 @@
 			try {
 				$datosContables = $datParam_contable->consultarXServicio($datosPantalla);
 				if (empty($datosContables)) {
-					header("Location: traAvances.php?error=11");
+					header("Location: traPagoServicios.php?error=11");
 				}
 			} catch (Exception $e) {
 				//Si no existen parametros devuelve error
-				header("Location: traAvances.php?error=11");
+				header("Location: traPagoServicios.php?error=11");
 			}
 		/**
 		 * Quita caracteres de $
@@ -137,18 +135,15 @@
 						$datosPantalla["cuenta_contable"] = $value["cuenta_contable"];
 						$aplicaConta = $datContabilidad->insertar($datosPantalla);
 					}
-                    header("Location: traAvances.php?error=13");
-				}else{
-					header("Location: traAvances.php?error=12");
 				}
-				
+				header("Location: traPagoServicios.php?error=13");
 
 			} catch (Exception $th) {
-				header("Location: traAvances.php?error=12");
+				header("Location: traPagoServicios.php?error=12");
 			}
 
 	} catch (Exception $e) {
-		header("Location: traAvances.php?error=3");
+		header("Location: traPagoServicios.php?error=3");
 	}
 
 ?>

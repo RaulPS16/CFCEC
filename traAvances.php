@@ -43,7 +43,7 @@
 
 		<h2 class="text-center titulos">Avances de efectivo</h2>
 		
-		<form action="procesos/prcAvances.php" method="POST" class="needs-validation row" novalidate>
+		<form action="prcAvances.php" method="POST" class="needs-validation row" novalidate>
 		<div class="col-sm-12">
 			<div class="has-validation form-floating">
 				<input type="text" name="fecha_trx" class="form-control visually-hidden" id="fecha_trx" placeholder="2000-01-01" value="<?php print($fechaActual);?>"   required >

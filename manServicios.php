@@ -36,7 +36,7 @@
 
 		<h2 class="text-center titulos">Mantenimiento de Servicios</h2>
 		
-		<form action="procesos/prcServicios.php" method="POST" class="needs-validation row" novalidate>
+		<form action="prcServicios.php" method="POST" class="needs-validation row" novalidate>
 		<div class="col-md-3">
 			<div class="has-validation form-floating">
 				<input type="number" name="id_servicio" class="form-control" id="id_servicio" placeholder="1234" value="<?php echo($retornoDatos['id_servicio']) ?>"  required>

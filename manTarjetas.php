@@ -39,7 +39,7 @@
 
 		<h2 class="text-center titulos">Mantenimiento de tarjetas</h2>
 		
-		<form action="procesos/prcTarjetas.php" method="POST" class="needs-validation row" novalidate>
+		<form action="prcTarjetas.php" method="POST" class="needs-validation row" novalidate>
 		<div class="col-md-12">
 			<div class="has-validation form-floating">
 				<input type="number" name="id_tarjeta_original" class="visually-hidden" id="id_tarjeta_original"value="<?php echo($retornoDatos['id_tarjeta']); ?>">

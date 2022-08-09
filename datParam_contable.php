@@ -39,7 +39,7 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO param_contable VALUES (" . $pValores["cuenta_contable"] . ",'" . $pValores["descripcion"] . "',CURRENT_TIMESTAMP, 1,'" . $pValores["id_servicio"] ."','" . $pValores["cr_db"] . "');";
+				$sql = "INSERT INTO param_contable VALUES (NULL, " . $pValores["cuenta_contable"] . ",'" . $pValores["descripcion"] . "',CURRENT_TIMESTAMP, " . $pValores["estado"] . ",'" . $pValores["id_servicio"] ."','" . $pValores["cr_db"] . "');";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -58,7 +58,7 @@
 		public function modificar($pValores)
 		{
 			try {
-				$sql = "UPDATE param_contable SET descripcion = '" . $pValores["descripcion"] . "', estado = " . $pValores["estado"] . ", id_servicio = '" . $pValores["id_servicio"] . "', cr_db = '" . $pValores["cr_db"] . "';";
+				$sql = "UPDATE param_contable SET descripcion = '" . $pValores["descripcion"] . "', estado = " . $pValores["estado"] . ", id_servicio = '" . $pValores["id_servicio"] . "', cr_db = '" . $pValores["cr_db"] . "' WHERE id = " . $pValores['id'] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -96,8 +96,13 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM param_contable WHERE cuenta_contable = " . $pValores["cuenta_contable"] . ";";
+				$sql = "SELECT * FROM param_contable WHERE cuenta_contable = '" . $pValores["cuenta_contable"] . "' AND id_servicio = " . $pValores["id_servicio"] . " AND cr_db = '" . $pValores['cr_db'] . "';";
 				$this->dbm->Consultar($sql);
+				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
+				if ($cantidadFilas == 0) {
+					throw new Exception(0);
+				}
+				//print_r($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error

@@ -25,12 +25,18 @@
             <li><a class="dropdown-item" href="traDeposito.php">Depositos</a></li>
             <li><a class="dropdown-item" href="traAvances.php">Avances de efectivo</a></li>
             <li><a class="dropdown-item" href="traReversion.php">Reversiones</a></li>
-            <li><a class="dropdown-item" href="traPagoServicios.php">Pagos de srvicios</a></li>
+            <li><a class="dropdown-item" href="traPagoServicios.php">Pagos de servicios</a></li>
           </ul>
         </li> <!--Fin transacciones-->
-        <li class="nav-item">
-          <a class="nav-link" href="conContabilidad.php">Contabilidad</a>
-        </li>
+        <li class="nav-item dropdown"><!--Ini contabilidad-->
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Contabilidad
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="conContabilidad.php">Consulta contable</a></li>
+            <li><a class="dropdown-item" href="manParamContable.php">Administración de parametros</a></li>
+          </ul>
+        </li> <!--Fin contabilidad-->
         <li class="nav-item dropdown"><!--Ini Admin-->
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Administración
