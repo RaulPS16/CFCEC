@@ -32,7 +32,7 @@
 			"totalCR" => $_GET["totalCR"],
 			"totalDB" => $_GET["totalDB"]);
 
-		$paginas = new paginacion(3, $valores);
+		$paginas = new paginacion(2, $valores);
 		$mostrartabla = TRUE;
 	}
 	
@@ -103,18 +103,18 @@
 
         </table>
 		<?php
-		if (empty($_GET["totalCR"])) {
+		$paginas->mostrarPaginas();
+		/*if ($_GET["totalCR"] <> 0  || 
+			$_GET["totalCR"] <> '' || 
+			$_GET["totalDB"] <> 0  || 
+			$_GET["totalDB"] <> '') {
 			$paginas->mostrarPaginas();
-		}
+		}*/
 		
 		} // if $mostrartabla
 		?>
 	</div>
 	
-	<?php
-
-
-	?>
 	<script type="text/javascript" src="js/validaForms.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jQueryMoney.js"></script>

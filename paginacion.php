@@ -54,7 +54,7 @@ class paginacion extends datContabilidad{
             $this->totalDB += $_GET["totalDB"];
         }
         // muestra totales
-        if ($this->totalPaginas == ($this->indice - 1)) {
+        if ($this->totalPaginas == ($this->paginaActual)) {
             
             $this->difConta = $this->totalCR - $this->totalDB;
             ?>
@@ -69,7 +69,7 @@ class paginacion extends datContabilidad{
             $this->url = $this->url . "&totalCR=" . $this->totalCR . "&totalDB=" . $this->totalDB;
             ?>
                 <tfoot class="text-center">
-                    <td colspan="6" scope="row">Totales solo en la ultima pagina</td>
+                    <td colspan="6" scope="row">Totales solo en la ultima pagina</td> 
                 </tfoot>
             <?php
         }
