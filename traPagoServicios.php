@@ -42,52 +42,60 @@
 		<h2 class="text-center titulos">Pago de servicios</h2>
 		
 		<form action="prcPagoServicios.php" method="POST" class="needs-validation row" novalidate>
-		<div class="col-md-3">
-			<div class="form-floating">
-				<input type="number" name="num_documento" class="form-control" id="num_documento" placeholder="12345678">
-				<label for="num_documento">Numero de documento</label>
+			<div class="col-md-3">
+				<div class="form-floating">
+					<input type="number" name="num_documento" class="form-control" id="num_documento" placeholder="12345678">
+					<label for="num_documento">Numero de NISE</label>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="has-validation form-floating">
-				<select class="form-select" name="id_servicio" id="id_servicio" required>
-					<?php
-						foreach ($listaServicios as  $fila) {
-							print_r ("<option value='" . $fila['id_servicio'] . "'>" . $fila['nombre_servicio'] . "</option>");
-							
-						}
-					?>
-					
-				</select>
-				<label for="id_servicio">Servicio a pagar</label>
-				<div class="invalid-feedback">
-        			Ingrese un servicio
-      			</div>
+			<div class="col-md-4">
+				<div class="has-validation form-floating">
+					<select class="form-select" name="id_servicio" id="id_servicio" required>
+						<?php
+							foreach ($listaServicios as  $fila) {
+								print_r ("<option value='" . $fila['id_servicio'] . "'>" . $fila['nombre_servicio'] . "</option>");
+							}
+						?>
+						
+					</select>
+					<label for="id_servicio">Servicio a pagar</label>
+					<div class="invalid-feedback">
+						Ingrese un servicio
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-3">
-			<div class=" form-floating">
-				<input type="text" name="fecha_trx" class="form-control visually-hidden" id="fecha_trx" placeholder="2000-01-01" value="<?php print($fechaActual);?>"  >
+			<div class="col-md-3">
+				<div class=" form-floating">
+					<input type="text" name="fecha_trx" class="form-control visually-hidden" id="fecha_trx" placeholder="2000-01-01" value="<?php print($fechaActual);?>"  >
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="has-validation form-floating">
-				<input type="number" name="id_tarjeta" class="form-control" id="id_tarjeta" placeholder="23534656"  required>
-				<label for="id_tarjeta">Cuenta o tarjeta</label>
-				<div class="invalid-feedback">
-        			Ingrese una cuenta o tarjeta
-      			</div>
+			<div class="col-md-6">
+				<div class="has-validation form-floating">
+					<input type="number" name="id_tarjeta" class="form-control" id="id_tarjeta" placeholder="23534656"  required>
+					<label for="id_tarjeta">Numero de tarjeta</label>
+					<div class="invalid-feedback">
+						Ingrese una tarjeta
+					</div>
+				</div>
 			</div>
-		</div>
-		
-		<div class="col-md-12">
-			<br>
-		</div>
-		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<input type="submit" name="btnClientes" class="btn btn-primary btn-lg" value="Aceptar">
-		</div>
-		
-	</form>
+			<div class="col-md-6">
+				<div class="has-validation form-floating">
+					<input type="text" name="monto" id="monto" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="$1,000,000.00" class="form-control form-meney-control"required>
+					<label for="monto">Monto de la transacción</label>
+					<div class="invalid-feedback">
+						Ingrese un monto
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<br>
+			</div>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+				<input type="submit" name="btnPagoServicios" class="btn btn-secondary btn-lg" value="Pagar">
+				<input type="submit" name="btnPagoServicios" class="btn btn-primary btn-lg" value="Consultar">
+			</div>
+			
+		</form>
 
 	</div>
 

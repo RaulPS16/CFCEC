@@ -39,22 +39,22 @@
 		 *
 		 */
 		$datosPantalla = array("num_documento" => $_POST['num_documento'], 
-			"fecha_trx" => $_POST['fecha_trx'], 
+			"fecha_trx" => date("Y-m-d H:i:s"), 
 			"id_cuenta" => "0", 
 			"monto" => $_POST['monto'], 
-			"detalle_trx" => "", 
-			"id_tarjeta" => $_POS['id_tarjeta'],
-			"id_servicio" => $_POST['id_Servicio'], 
+			"detalle_trx" => "Pago de servicio ", 
+			"id_tarjeta" => $_POST['id_tarjeta'],
+			"id_servicio" => $_POST['id_servicio'], 
 			"id_usuario" => "604320137",
 			"modulo" => "traPagoServicios",
 			"cr_db" => "",
 			"cuenta_contable" => "");
-
+		//print_r($datosPantalla);
+		
 		/**
 		 *  Valida que los campos obligatorios no estén en blanco
 		 */
 		if ($datosPantalla['num_documento'] == '' ||
-			$datosPantalla['fecha_trx'] == '' ||
 			$datosPantalla['id_tarjeta'] == '' ||
 			$datosPantalla['monto'] == '') {
 			header("Location: traPagoServicios.php?error=4");
