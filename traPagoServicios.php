@@ -91,8 +91,7 @@
 				<br>
 			</div>
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-				<input type="submit" name="btnPagoServicios" class="btn btn-secondary btn-lg" value="Pagar">
-				<input type="submit" name="btnPagoServicios" class="btn btn-primary btn-lg" value="Consultar">
+				<input type="submit" name="btnPagoServicios" class="btn btn-primary btn-lg" value="Pagar">
 			</div>
 			
 		</form>
