@@ -1,11 +1,4 @@
 <?php
-	// Aca se valida si la sesión está abierta
-	session_start();
-	include_once("loginControl.php");
-	// No se pasan valores a la funcion loginControl ya que se asume que está logeado
-	$login = new loginControl();
-?>
-<?php
 
 include_once("datTransacciones.php");
 
