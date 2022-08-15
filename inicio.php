@@ -2,6 +2,7 @@
 	// Aca se valida si la sesión está abierta
 	session_start();
 	include_once("loginControl.php");
+	include_once("menu.php");
 	// No se pasan valores a la funcion loginControl ya que se asume que está logeado
 	$login = new loginControl();
 ?>
@@ -24,7 +25,9 @@
 	<title>Inicio</title>
 </head>
 <body>
-	<?php include("menu.php");	?>
+	<?php 
+		$menu = new menu($_SESSION['sId_rol']);
+	?>
 	<div class="container">
 
 		<h2 class="text-center">Bienvenido </h2>

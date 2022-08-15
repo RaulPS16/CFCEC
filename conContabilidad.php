@@ -27,7 +27,8 @@
 <body>
 
 	<?php
-	include("menu.php");
+	include_once("menu.php");
+	$menu = new menu($_SESSION['sId_rol']);
 	include_once("paginacion.php");
 	
 	// Valida si en la URL está en la fecha_contable para mostrar la tablas

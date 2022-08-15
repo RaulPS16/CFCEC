@@ -24,7 +24,8 @@
 	<title>Manual de usuario</title>
 </head>
 <body>
-	<?php include("menu.php");	?>
+	<?php include_once("menu.php");
+	$menu = new menu($_SESSION['sId_rol']);	?>
 	<div class="container">
 
 		<h2 class="text-center">Manual de usuario</h2>

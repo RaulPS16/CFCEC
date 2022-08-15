@@ -27,7 +27,8 @@
 <body>
 
 	<?php
-	include("menu.php");
+	include_once("menu.php");
+	$menu = new menu($_SESSION['sId_rol']);
 
 	$fechaActual = date("Y-m-d H:i:s");
 	include_once("muestraErrores.php");

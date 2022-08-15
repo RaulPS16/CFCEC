@@ -26,7 +26,8 @@
 <body>
 
 	<?php
-		include("menu.php");
+		include_once("menu.php");
+		$menu = new menu($_SESSION['sId_rol']);
 		include_once("muestraErrores.php");
 		$retornoDatos = array("id_cuenta" => "", "id_cliente" => "", "moneda" => "");
 		$fechaActual = date("Y-m-d");
