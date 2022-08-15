@@ -73,7 +73,13 @@ class menu{
 </nav>
         <?php
 
+    } // fin construyeMenu
+
+    public function muestraMonedas(){
+
     }
+
+
 }
 
 ?>

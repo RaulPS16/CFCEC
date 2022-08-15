@@ -1,7 +1,12 @@
 <?php
 	// Aca se valida si la sesión está abierta
 	session_start();
+	include_once("datMonedas.php");
 	include_once("loginControl.php");
+	include_once("menu.php");
+	include_once("muestraErrores.php");
+	include_once("utilitarios.php");
+	
 	// No se pasan valores a la funcion loginControl ya que se asume que está logeado
 	$login = new loginControl();
 ?>
@@ -26,9 +31,11 @@
 <body>
 
 	<?php
-		include_once("menu.php");
+		
+		//include_once("muestraMonedas.php");
 		$menu = new menu($_SESSION['sId_rol']);
-		include_once("muestraErrores.php");
+		$util = new utilitarios();
+		
 		$retornoDatos = array("id_cuenta" => "", "id_cliente" => "", "moneda" => "");
 		$fechaActual = date("Y-m-d");
 		//&& $_GET['error'] <> 0
@@ -40,10 +47,11 @@
 			$retornoDatos = unserialize($_GET['datosSQL']);
 		}
 
-		include_once("datMonedas.php");
 		$datMonedas = new datMonedas();
 		$modulo = array("modulo" => "ManCuentas");
 		$listaMonedas = $datMonedas->consultaLista($modulo);
+		
+		
 	
 	?>
 	<div class="container mant">
@@ -86,6 +94,7 @@
 									print_r ("<option value='" . $fila['id_moneda'] . "'>" . $fila['nombre_moneda'] . "</option>");
 								}
 							}
+
 					?>
 					</select>
 					<label for="moneda">Moneda</label>
