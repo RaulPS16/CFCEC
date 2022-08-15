@@ -1,12 +1,9 @@
 <?php
-	// Aca se valida si la sesión está abierta
-	session_start();
-	include_once("loginControl.php");
-	// No se pasan valores a la funcion loginControl ya que se asume que está logeado
-	$login = new loginControl();
-?>
-<?php
+    include_once("datUsuarios.php");
     class loginControl{
+
+        private $datUsuarios = NULL;
+
         //Clase __construct que resive tiempo de espera, usuario y clave
         function __construct($pTiempo=60, $pUsuario=Null, $pClave=Null){
             if ($pUsuario==Null && $pClave==Null) {
@@ -22,27 +19,35 @@
                     }
                 }
                 // Valida $_SESSION['tiempoLogin'] tiene algo y valida que el timepo no sea mayot a los segundos de $pTiempo
-                if (isset($_SESSION['tiempoLogin']) &&
-                (time() > $_SESSION['tiempoLogin'] ) ) {
+                if (isset($_SESSION['sTiempoLogin']) &&
+                (time() > $_SESSION['sTiempoLogin'] ) ) {
                     session_unset();
                     session_destroy();
                     header("Location: index.php?error=18");
                 }
             }else{
                 //si el usuario y clave es <> NULL llama al metodo verificaUsuario
+                $this->datUsuarios = new datUsuarios();
                 $this->verificaUsuario($pTiempo,$pUsuario,$pClave);
             }
         } // fin __construct
 
         private function verificaUsuario($pTiempo,$pUsuario,$pClave){
-            if ($pUsuario == "1" && $pClave == "1234") {
+            $valores = array("id_usuario" => $pUsuario,
+                            "clave" => $pClave);
+            $resultLogin = $this->datUsuarios->consultar($valores);
+            if ($resultLogin['contador'] > 0) {
                 //encripta con hash MD5
                 $idUsuario = md5($pUsuario);
                 // Se crea la cookie cUsuario, se le pasa el tiempo + lo deficido en $pTiempo
                 setcookie("cUsuario",$idUsuario,time()+$pTiempo);
-                //Se cuarda el $idUsuario en la variable de session para sUsuario
-                $_SESSION['sUsuario'] = $idUsuario;
-                $_SESSION['tiempoLogin'] = time() + $pTiempo;
+                // Guarda el tiempo de login
+                $_SESSION['sTiempoLogin'] = time() + $pTiempo;
+                // instancia el rol, id_usuario y modifica fecha de ultimo ingreso en las variables sesiones
+                $_SESSION['sId_rol'] = $resultLogin['id_rol'];
+                $_SESSION['sUsuario'] = $resultLogin['id_usuario'];
+                $actualizaFecha = $this->datUsuarios->actualizaFechaAcceso($valores);
+                // ingresa al inicio del sitio
                 header("Location: inicio.php");
 
             }else{

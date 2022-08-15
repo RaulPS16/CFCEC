@@ -32,7 +32,7 @@
 			<h2 class="text-center">Sistema financiero</h2>
 			<br>
 			<div class="form-floating mb-3 has-validation">
-			  <input type="number" class="form-control" id="usuario" placeholder="102340567" name="usuario" required>
+			  <input type="number" class="form-control" id="usuario" placeholder="102340567" name="usuario" value="604320137" required>
 			  <label for="usuario">Codigo de usuario</label>
 			  <div class="invalid-feedback">
         			Favor ingrese un usuario
