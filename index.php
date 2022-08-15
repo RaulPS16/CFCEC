@@ -1,3 +1,7 @@
+<?php
+	session_start();
+	include_once("muestraErrores.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,19 +21,29 @@
 	<title>SFCEC</title>
 </head>
 <body>
-
+	<?php
+	if (isset($_GET['error']) ) {
+		$muestraErrores = new muestraErrores($_GET['error']);
+	}
+	?>
 	<div class="container">
 		
-		<form method="POST" action="inicio.php" class="form-login">
+		<form method="POST" action="validaLogin.php" class="form-login needs-validation" novalidate>
 			<h2 class="text-center">Sistema financiero</h2>
 			<br>
-			<div class="form-floating mb-3">
-			  <input type="number" class="form-control" id="floatingInput" placeholder="102340567" name="loginUsuario">
-			  <label for="floatingInput">Codigo de usuario</label>
+			<div class="form-floating mb-3 has-validation">
+			  <input type="number" class="form-control" id="usuario" placeholder="102340567" name="usuario" required>
+			  <label for="usuario">Codigo de usuario</label>
+			  <div class="invalid-feedback">
+        			Favor ingrese un usuario
+      			</div>
 			</div>
-			<div class="form-floating">
-			  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="loginClave">
-			  <label for="floatingPassword">Contraseña</label>
+			<div class="form-floating has-validation">
+			  <input type="password" class="form-control" id="clave" placeholder="Password" name="clave" required>
+			  <label for="clave">Contraseña</label>
+			  <div class="invalid-feedback">
+        			Favor ingrese una clave
+      			</div>
 			</div>
 			<br>
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end">

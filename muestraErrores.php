@@ -121,6 +121,27 @@
 						</div>
 					<?php
 					break;
+				case '16':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Login incorrecto
+						</div>
+					<?php
+					break;
+				case '17':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Usuario o contraseña incorrecta
+						</div>
+					<?php
+					break;
+				case '18':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Sesión expirada
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">

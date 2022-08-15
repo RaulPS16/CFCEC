@@ -58,7 +58,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item text-end" href="cambioClave.php">Cambio Clave</a></li>
-            <li><a class="dropdown-item text-end" href="index.php">Desconectarse</a></li>
+            <li><a class="dropdown-item text-end" href="desconexion.php">Desconectarse</a></li>
           </ul>
         </li> <!--Fin Admin-->
       </ul>
