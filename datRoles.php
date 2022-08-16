@@ -11,7 +11,7 @@
 	 * MYSQLI_ASSOC despliega los encabezados del array y no como posiciones del vector
 	 * 
 	 */
-	class datUsuarios
+	class datRoles 
 	{
 		// Se instancian las variables globales para el uso dentro de los metodos
 		var $dbm = null;
@@ -23,7 +23,6 @@
 		function __construct()
 		{
 			try {
-
 				$this->dbm = new ConexionDB();
 				$this->BitacoraErrores = new datBitacoraErrores();
 				$this->utilitario = new utilitarios();
@@ -40,7 +39,7 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO usuarios VALUES (" . $pValores["id_usuario"] . ",'" . $pValores["clave"] . "'," . $pValores["id_rol"] . ", CURRENT_TIMESTAMP, 1);";
+				$sql = "INSERT INTO roles VALUES (" . $pValores["id_rol"] . ",'" . $pValores["descripcion"] . "',1);";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -54,12 +53,12 @@
 		}// fin insertar()
 
 		/**
-		*  funcion para modificar la clave
+		* modifica un registro en la tabla el cual los valores son pasados por parametros
 		*/
-		public function modificaCalves($pValores)
+		public function modificar($pValores)
 		{
 			try {
-				$sql = "UPDATE usuarios SET clave = '" . $pValores["clave"] . "' WHERE id_usuario = " . $pValores["id_usuario"] . ";";
+				$sql = "UPDATE roles SET descripcion = '" . $pValores["descripcion"] . "', estado = " . $pValores["estado"] . " where id_rol = " . $pValores["id_rol"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -70,58 +69,7 @@
 				throw new Exception("Error en metodo en modificar" . $e->getMessage());
 				
 			}
-		}//fin modificaCalves()
-
-        /**
-		* modifica el rol de un usuario
-		*/
-		public function modificaRol($pValores)
-		{
-			try {
-				$sql = "UPDATE usuarios SET id_rol = '" . $pValores["id_rol"] . "' WHERE id_usuario = " . $pValores["id_usuario"] . ";";
-				$this->dbm->ejecutar($sql);
-			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en modificar" . $e->getMessage());
-				
-			}
-		}//fin modificaRol()
-
-		public function modificaEstado($pValores)
-		{
-			try {
-				$sql = "UPDATE usuarios SET estado = '" . $pValores["estado"] . "' WHERE id_usuario = " . $pValores["id_usuario"] . ";";
-				$this->dbm->ejecutar($sql);
-			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en modificar" . $e->getMessage());
-				
-			}
-		}//fin modificaRol()
-        
-        public function actualizaFechaAcceso($pValores)
-		{
-			try {
-				$sql = "UPDATE usuarios SET fecha_ulti_ingreso = CURRENT_TIMESTAMP WHERE id_usuario = " . $pValores["id_usuario"] . ";";
-				$this->dbm->ejecutar($sql);
-			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en modificar" . $e->getMessage());
-				
-			}
-		}//fin modificaRol()
+		}//fin modificar()
 
 		/**
 		* elimina un registro en la tabla el cual los valores son pasados por parametros
@@ -129,7 +77,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM usuarios WHERE id_usuario = " . $pValores["id_usuario"] . ";";
+				$sql = "DELETE FROM roles WHERE id_rol = " . $pValores["id_rol"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -148,7 +96,7 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT id_usuario, id_rol, COUNT(*) AS contador FROM usuarios WHERE id_usuario = " . $pValores["id_usuario"] . " AND clave = " . $pValores["clave"] . ";";
+				$sql = "SELECT * FROM roles WHERE id_rol = " . $pValores["id_rol"] . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -165,28 +113,10 @@
 		/**
 		* Consulta todos los registros en la tabla
 		*/
-		public function consultaLista($pIndice = 0, $pResultadoPorPagina)
+		public function consultaLista()
 		{
 			try {
-				$sql = "SELECT usuarios.id_usuario, concat(clientes.nombre, ' ', clientes.apellidos) AS 'nombre', usuarios.id_rol, roles.descripcion, usuarios.fecha_ulti_ingreso, usuarios.estado
-				FROM `usuarios`  
-				INNER JOIN roles
-				INNER JOIN clientes
-				on usuarios.id_rol = roles.id_rol
-				and usuarios.id_usuario = clientes.id_cliente
-				ORDER BY usuarios.estado
-				LIMIT " . $pIndice . ", " . $pResultadoPorPagina . ";";
-				$this->dbm->Consultar($sql);
-				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
-			} catch (Exception $e) {
-				return 0;
-				
-			}
-		}
-		public function consultarContador()
-		{
-			try {
-				$sql = "SELECT count(*) AS total FROM usuarios;";
+				$sql = "SELECT * FROM roles;";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -195,10 +125,22 @@
 				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
 				$this->BitacoraErrores->insertar($this->utilitario->cadena);
 				//genera la exepcion
-				throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
+				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
 				
 			}
-		}// fin consultar
+		}
+
+        public function consultaListaOrder($pValores)
+		{
+			try {
+				$sql = "SELECT *, IF(id_rol = " . $pValores . ",1,3) AS 'orden' from roles ORDER BY orden, id_rol ASC;";
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				return 0;
+				
+			}
+		}// fin consultaLista
 
 	}
 
