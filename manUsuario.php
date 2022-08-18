@@ -4,6 +4,18 @@
 	//include_once("loginControl.php");
 	// No se pasan valores a la funcion loginControl ya que se asume que está logeado
 	//$login = new loginControl();
+
+	$retornoDatos = array("id_usuario" => "604320137", 
+	"id_rol" => "",
+	"descripcion" => "Administracion", 
+	"modulo" => "",
+	"id_usuario_mod" => "");
+
+	if (isset($_GET['datosRol'])) {
+		$retornoDatos = unserialize($_GET['datosRol']);
+	}else{
+		header("Location: conUsuarios.php");
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,54 +39,65 @@
 
 	<?php
 	include_once("menu.php");
-	$menu = new menu($_SESSION['sId_rol']);
+	$menu = new menu(1);
 	include_once("muestraErrores.php");
-		$retornoDatos = array("id_servicio" => "", "nombre_servicio" => "", "descripcion" => "");
-		$fechaActual = date("Y-m-d");
-		//&& $_GET['error'] <> 0
-		if (isset($_GET['error']) ) {
-			$muestraErrores = new muestraErrores($_GET['error']);
-		}
+	include_once("datRoles.php");
+	$roles = new datRoles();
+	$listaRoles = $roles->consultaLista();
+	
+	$fechaActual = date("Y-m-d");
+	//&& $_GET['error'] <> 0
+	if (isset($_GET['error']) ) {
+		$muestraErrores = new muestraErrores($_GET['error']);
+	}
 
-		if (isset($_GET['datosSQL'])) {
-			$retornoDatos = unserialize($_GET['datosSQL']);
-		}
+	
 	?>
 	<div class="container mant">
 
 		<h2 class="text-center titulos">Cambio rol a usuario</h2>
 		
 		<form action="prcModUsuario.php" method="GET" class="needs-validation row" novalidate>
-		<div class="col-md-3">
-			<div class="has-validation form-floating">
-				<input type="number" name="id_servicio" class="form-control" id="id_servicio" placeholder="1234" value="<?php echo($retornoDatos['id_servicio']) ?>"  required>
-				<label for="id_servicio">Numero de servicio</label>
-				<div class="invalid-feedback">
-        			Ingrese un numero de servicio
-      			</div>
+		<div class="col-md-5">
+			<div class="mb-3 row">
+				<label for="id_usuario" class="col-sm-4 col-form-label">Identificación: </label>
+				<div class="col-sm-5">
+					<input type="text" name="id_usuario" class="form-control-plaintext" id="id_usuario" value="<?php echo($retornoDatos['id_usuario']) ?>" >
+				</div>
+				
 			</div>
 		</div>
-		<div class="col-md-9">
-			<div class=" form-floating">
-				<input type="text" name="nombre_servicio" class="form-control" id="nombre_servicio" placeholder="Pagos automaticos" value="<?php echo($retornoDatos['nombre_servicio']) ?>" >
-				<label for="nombre_servicio">Nombre del Servicio</label>
+		<div class="col-md-6">
+			<div class="mb-3 row">
+				<label for="descripcion_Actual" class="col-sm-4 col-form-label">Rol actual: </label>
+				<div class="col-sm-5">
+					<input type="text" name="descripcion_Actual" class="form-control-plaintext" id="descripcion_Actual" value="<?php echo($retornoDatos['descripcion']) ?>" >
+				</div>
+				
 			</div>
 		</div>
-		<div class="col-md-12">
-			<div class=" form-floating">
-				<textarea type="text" name="descripcion" class="form-control" id="descripcion" maxlength="100" rows="3" placeholder="Ejemplo de que hace el servicio"><?php echo($retornoDatos['descripcion'])?></textarea> 
-				<label for="descripcion">Descripcion del servicio</label>
+		<div class="col-md-10">
+				<div class="has-validation form-floating">
+					<select class="form-select" name="id_rol" id="id_rol" required>
+						<?php
+							foreach ($listaRoles as  $fila) {
+								print_r ("<option value='" . $fila['id_rol'] . "'>" . $fila['descripcion'] . "</option>");
+							}
+						?>
+						
+					</select>
+					<label for="id_rol">Rol nuevo</label>
+					<div class="invalid-feedback">
+						Ingrese un rol
+					</div>
+				</div>
 			</div>
-		</div>
 		
 		<div class="col-md-12">
 			<br>
 		</div>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<input type="submit" name="btnServicios" class="btn btn-light btn-lg" value="Eliminar">
-			<input type="submit" name="btnServicios" class="btn btn-warning btn-lg" value="Modificar">
-			<input type="submit" name="btnServicios" class="btn btn-secondary btn-lg" value="Insertar">
-			<input type="submit" name="btnServicios" class="btn btn-primary btn-lg" value="Consultar">
+			<input type="submit" name="btnModRol" class="btn btn-warning btn-lg" value="Modificar">
 		</div>
 		
 	</form>

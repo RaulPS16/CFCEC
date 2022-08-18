@@ -142,6 +142,13 @@
 						</div>
 					<?php
 					break;
+				case '19':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Ha ocurrido un error en la modificación del rol
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">

@@ -28,7 +28,7 @@
 
 	<?php
 	include_once("menu.php");
-	$menu = new menu($_SESSION['sId_rol']);
+	$menu = new menu(1);
 	include_once("muestraErrores.php");
 	include_once("paginacionUsuarios.php");
 

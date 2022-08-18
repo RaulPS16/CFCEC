@@ -120,13 +120,7 @@
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
-				// Carga el vector para hacer el reporte del error
-				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
-				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
-				$this->BitacoraErrores->insertar($this->utilitario->cadena);
-				//genera la exepcion
-				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
-				
+				return 0;				
 			}
 		}
 

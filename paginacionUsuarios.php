@@ -39,8 +39,8 @@ class paginacionTransacciones extends datUsuarios{
             
             $this->listaRoles = $this->datRoles->consultaListaOrder($value['id_rol']);
             // arma la URL para luego hacer la modificación del estado
-            $this->urlModEstado = "prcModUsuario.php?id_usuario=" . $value['id_usuario'] . "&btnEstado";
-            $this->urlModRol = "prcModUsuario.php?id_usuario=" . $value['id_usuario'] . "&btnRol";
+            $this->urlModEstado = "prcModUsuario.php?id_usuario=" . $value['id_usuario'] . "&btnEstado=estado";
+            $this->urlModRol = "prcModUsuario.php?id_usuario=" . $value['id_usuario'] . "&btnRol=rol&descripcion=". $value['descripcion'];
             $estado = 'Inactivo';
             $inactivar = FALSE;
             if ($value["estado"] == 1) {
