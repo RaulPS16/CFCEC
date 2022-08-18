@@ -39,7 +39,7 @@
 		public function insertar($pValores)
 		{
 			try {
-				$sql = "INSERT INTO roles VALUES (" . $pValores["id_rol"] . ",'" . $pValores["descripcion"] . "',1);";
+				$sql = "INSERT INTO roles VALUES (NULL,'" . $pValores["descripcion"] . "',1);";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -55,7 +55,26 @@
 		/**
 		* modifica un registro en la tabla el cual los valores son pasados por parametros
 		*/
-		public function modificar($pValores)
+		public function modificarEstado($pValores)
+		{
+			try {
+				$sql = "UPDATE roles SET estado = '" . $pValores["estado"] . " WHERE id_rol = " . $pValores["id_rol"] . ";";
+				$this->dbm->ejecutar($sql);
+			} catch (Exception $e) {
+				// Carga el vector para hacer el reporte del error
+				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
+				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
+				$this->BitacoraErrores->insertar($this->utilitario->cadena);
+				//genera la exepcion
+				throw new Exception("Error en metodo en modificar" . $e->getMessage());
+				
+			}
+		}//fin modificar()
+
+		/**
+		* modifica un registro en la tabla el cual los valores son pasados por parametros
+		*/
+		public function modificarRol($pValores)
 		{
 			try {
 				$sql = "UPDATE roles SET descripcion = '" . $pValores["descripcion"] . "', estado = " . $pValores["estado"] . " where id_rol = " . $pValores["id_rol"] . ";";
@@ -135,6 +154,38 @@
 				
 			}
 		}// fin consultaLista
+
+		/**
+		* Consulta un registro en la tabla por fecha y usuario
+		*/
+		public function consultarContador()
+		{
+			try {
+				$sql = "SELECT COUNT(*) AS total FROM roles";				
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				return 0;
+				
+			}
+		}// fin consultarContador
+
+		/**
+		* Consulta todos los registros en la tabla
+		*/
+		public function consultaPaginacion($pIndice = 0, $pResultadoPorPagina)
+		{
+			try {
+				$sql = "SELECT * from roles
+				ORDER BY id_rol
+				LIMIT " . $pIndice . ", " . $pResultadoPorPagina . ";";
+				$this->dbm->Consultar($sql);
+				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+			} catch (Exception $e) {
+				return 0;
+				
+			}
+		}
 
 	}
 
