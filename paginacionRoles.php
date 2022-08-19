@@ -36,7 +36,7 @@ class paginacionRoles extends datRoles{
         foreach ($datosConsultados as $key => $value) {
             // arma la URL para luego hacer la modificación del estado
             $this->urlModEstado = "prcModRoles.php?id_rol=" . $value['id_rol'] . "&btnEstado=estado";
-            $this->urlModRol = "prcModRoles.php?id_rol=" . $value['id_rol'] . "&btnModRol=Modoficar";
+            $this->urlModRol = "prcModRoles.php?id_rol=" . $value['id_rol'] . "&btnModRol=Modoficar&descripcion=" . $value['descripcion'];
             $estado = 'Inactivo';
             $inactivar = FALSE;
             if ($value["estado"] == 1) {

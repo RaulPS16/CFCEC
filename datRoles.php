@@ -58,7 +58,7 @@
 		public function modificarEstado($pValores)
 		{
 			try {
-				$sql = "UPDATE roles SET estado = '" . $pValores["estado"] . " WHERE id_rol = " . $pValores["id_rol"] . ";";
+				$sql = "UPDATE roles SET estado = '" . $pValores["estado"] . "' WHERE id_rol = " . $pValores["id_rol"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -77,7 +77,7 @@
 		public function modificarRol($pValores)
 		{
 			try {
-				$sql = "UPDATE roles SET descripcion = '" . $pValores["descripcion"] . "', estado = " . $pValores["estado"] . " where id_rol = " . $pValores["id_rol"] . ";";
+				$sql = "UPDATE roles SET descripcion = '" . $pValores["descripcion"] . "' WHERE id_rol = " . $pValores["id_rol"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
