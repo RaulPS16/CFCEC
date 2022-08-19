@@ -149,6 +149,20 @@
 						</div>
 					<?php
 					break;
+				case '20':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Usuario debe existir como cliente primero
+						</div>
+					<?php
+					break;
+				case '21':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Error en los datos
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">

@@ -98,6 +98,10 @@
 			try {
 				$sql = "SELECT * FROM clientes WHERE id_cliente = " . $pValores["id_cliente"] . ";";
 				$this->dbm->Consultar($sql);
+				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
+				if ($cantidadFilas == 0) {
+					throw new Exception("Registro no existe");
+				}
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error

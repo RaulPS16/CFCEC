@@ -36,7 +36,6 @@ class paginacionTransacciones extends datUsuarios{
         //$query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
         $datosConsultados = $this->consultaLista($this->indice, $this->resultadosPorPagina);
         foreach ($datosConsultados as $key => $value) {
-            
             $this->listaRoles = $this->datRoles->consultaListaOrder($value['id_rol']);
             // arma la URL para luego hacer la modificación del estado
             $this->urlModEstado = "prcModUsuario.php?id_usuario=" . $value['id_usuario'] . "&btnEstado=estado";

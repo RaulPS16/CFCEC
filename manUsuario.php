@@ -77,21 +77,21 @@
 			</div>
 		</div>
 		<div class="col-md-10">
-				<div class="has-validation form-floating">
-					<select class="form-select" name="id_rol" id="id_rol" required>
-						<?php
-							foreach ($listaRoles as  $fila) {
-								print_r ("<option value='" . $fila['id_rol'] . "'>" . $fila['descripcion'] . "</option>");
-							}
-						?>
-						
-					</select>
-					<label for="id_rol">Rol nuevo</label>
-					<div class="invalid-feedback">
-						Ingrese un rol
-					</div>
+			<div class="has-validation form-floating">
+				<select class="form-select" name="id_rol" id="id_rol" required>
+					<?php
+						foreach ($listaRoles as  $fila) {
+							print_r ("<option value='" . $fila['id_rol'] . "'>" . $fila['descripcion'] . "</option>");
+						}
+					?>
+					
+				</select>
+				<label for="id_rol">Rol nuevo</label>
+				<div class="invalid-feedback">
+					Ingrese un rol
 				</div>
 			</div>
+		</div>
 		
 		<div class="col-md-12">
 			<br>

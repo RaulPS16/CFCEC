@@ -31,11 +31,13 @@
 	$menu = new menu($_SESSION['sId_rol']);
 	include_once("muestraErrores.php");
 	include_once("paginacionUsuarios.php");
+	include_once("datRoles.php");
 
 	$fechaActual = date("Y-m-d");
 
-	$paginas = new paginacionTransacciones(3);
-	
+	$paginas = new paginacionTransacciones(4);
+	$roles = new datRoles();
+	$listaRoles = $roles->consultaLista();
 
 	if (isset($_GET['error']) ) {
 		$muestraErrores = new muestraErrores($_GET['error']);
@@ -74,9 +76,55 @@
 			<?Php
 				$paginas->mostrarPaginas();
             ?>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear usuario</button>
+		    </div>
 		</form>
 		
 	</div>
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="prcModUsuario.php" class="needs-validation" method="POST" novalidate>
+                    <div class="has-validation form-floating mb-3">
+                        <input type="number" maxlength="50" class="form-control" id="id_usuario" name="id_usuario" placeholder="102340567" required>
+						<label for="id_usuario" class="form-label">Identificación</label>
+						<div class="invalid-feedback">
+							Ingrese un usuario
+						</div>
+                    </div>
+					<div class="col-md-10">
+					<div class="has-validation form-floating mb-3">
+						<select class="form-select" name="id_rol" id="id_rol" required>
+							<?php
+								foreach ($listaRoles as  $fila) {
+									print_r ("<option value='" . $fila['id_rol'] . "'>" . $fila['descripcion'] . "</option>");
+								}
+							?>
+							
+						</select>
+						<label for="id_rol">Rol nuevo</label>
+						<div class="invalid-feedback">
+							Ingrese un rol
+						</div>
+					</div>
+				</div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <input type="submit" class="btn btn-primary" name="btnCrear" value="Aceptar">
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
 
 	<script type="text/javascript" src="js/validaForms.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
