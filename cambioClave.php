@@ -26,24 +26,27 @@
 <body>
 
 	<?php
+	include_once("muestraerrores.php");
 	include_once("menu.php");
+	
 	$menu = new menu($_SESSION['sId_rol']);
 
-		$fechaActual = date("Y-m-d");
-		if (isset($_GET['error']) && $_GET['error'] <> 0) {
-			echo "Se a producido un error";
-		}
+	$fechaActual = date("Y-m-d");
+	if (isset($_GET['error']) ) {
+		$muestraErrores = new muestraErrores($_GET['error']);
+	}
+
 
 	?>
 	<div class="container mant">
 
 		<h2 class="text-center titulos">Cambio de clave</h2>
 		
-		<form action="#" method="POST" class="needs-validation row" novalidate>
+		<form action="prcCambioClave.php" method="POST" class="needs-validation row" novalidate>
 		<div class="col-md-12">
 			<div class="has-validation form-floating">
-				<input type="password" name="claveAntigua" class="form-control" id="claveAntigua" placeholder="1231435474856"  required>
-				<label for="claveAntigua">Clave anterior</label>
+				<input type="password" name="clave_anterior" class="form-control" id="clave_anterior" placeholder="1949503"  required>
+				<label for="clave_anterior">Clave anterior</label>
 				<div class="invalid-feedback">
         			Ingrese una clave
       			</div>
@@ -51,8 +54,8 @@
 		</div>
 		<div class="col-md-6">
 			<div class="has-validation form-floating">
-				<input type="password" name="claveNueva1" class="form-control" id="claveNueva1" placeholder="1231435474856"  required>
-				<label for="claveNueva1">Clave nueva</label>
+				<input type="password" name="clave_nueva_1" class="form-control" id="clave_nueva_1" placeholder="1231435474856"  required>
+				<label for="clave_nueva_1">Clave nueva</label>
 				<div class="invalid-feedback">
         			Ingrese una clave
       			</div>
@@ -60,8 +63,8 @@
 		</div>
 		<div class="col-md-6">
 			<div class="has-validation form-floating">
-				<input type="password" name="claveNueva2" class="form-control" id="claveNueva2" placeholder="1231435474856"  required>
-				<label for="claveNueva2">Confirme clave nueva</label>
+				<input type="password" name="clave_nueva_2" class="form-control" id="clave_nueva_2" placeholder="1231435474856"  required>
+				<label for="clave_nueva_2">Confirme clave nueva</label>
 				<div class="invalid-feedback">
         			Ingrese una clave
       			</div>
@@ -72,24 +75,13 @@
 			<br>
 		</div>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<input type="submit" name="btnClientes" class="btn btn-light btn-lg" value="Limpiar">
 			<input type="submit" name="btnClientes" class="btn btn-primary btn-lg" value="Aceptar">
 		</div>
 		
 	</form>
 
 	</div>
-	
-	<?php
-		
-		if (isset($_GET['datosSQL'])) {
-			$datos = unserialize($_GET['datosSQL']);
-			print_r( $datos );
-			print_r("nombre: ". $datos['nombre']);
-		}
 
-
-	?>
 	<script type="text/javascript" src="js/validaForms.js"></script>
 
 	<?php 

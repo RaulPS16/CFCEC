@@ -59,7 +59,7 @@
 		public function modificaCalves($pValores)
 		{
 			try {
-				$sql = "UPDATE usuarios SET clave = '" . $pValores["clave"] . "' WHERE id_usuario = " . $pValores["id_usuario"] . ";";
+				$sql = "UPDATE usuarios SET clave = '" . $pValores['clave'] . "' WHERE id_usuario = " . $pValores["id_usuario"] . ";";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error

@@ -163,6 +163,27 @@
 						</div>
 					<?php
 					break;
+				case '22':
+					?>
+						<div class="alert alert-warning" role="alert">
+						Clave anterior es igual a la nueva
+						</div>
+					<?php
+					break;
+				case '23':
+					?>
+						<div class="alert alert-warning" role="alert">
+						La clave nueva no coninside
+						</div>
+					<?php
+					break;
+				case '24':
+					?>
+						<div class="alert alert-success" role="alert">
+						Clave modificada con exito
+						</div>
+					<?php
+					break;
 				default:
 					?>
 						<div class="alert alert-warning" role="alert">
