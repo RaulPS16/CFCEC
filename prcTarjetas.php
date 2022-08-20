@@ -6,7 +6,11 @@
 
 		$datTarjetas = new datTarjetas();
 
-		$datosPantalla = array("id_tarjeta" => $_POST['id_tarjeta'], "id_cuenta" => $_POST['id_cuenta'], "estado" => $_POST['estado'], "modulo" => "manTarjetas", "id_tarjeta_original" => $_POST['id_tarjeta_original']);
+		$datosPantalla = array("id_tarjeta" => $_POST['id_tarjeta'], 
+		"id_cuenta" => $_POST['id_cuenta'], 
+		"estado" => $_POST['estado'], 
+		"modulo" => "manTarjetas", 
+		"id_tarjeta_original" => $_POST['id_tarjeta_original']);
 
 		//print_r($datosPantalla);
 		switch ($_POST['btnTarjetas']) {

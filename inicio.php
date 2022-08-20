@@ -30,7 +30,7 @@
 	?>
 	<div class="container">
 
-		<h2 class="text-center">Bienvenido </h2>
+		<h2 class="text-center">Bienvenido <?php print_r($_SESSION['sNombre']);?></h2>
 
 		<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
 		  <div class="carousel-indicators">

@@ -6,7 +6,10 @@
 
 		$datServicios = new datServicios();
 
-		$datosPantalla = array("id_servicio" => $_POST['id_servicio'], "nombre_servicio" => $_POST['nombre_servicio'], "descripcion" => $_POST['descripcion'], "modulo" => "manServicios");
+		$datosPantalla = array("id_servicio" => $_POST['id_servicio'], 
+		"nombre_servicio" => $_POST['nombre_servicio'], 
+		"descripcion" => $_POST['descripcion'], 
+		"modulo" => "manServicios");
 		//print_r($datosPantalla);
 		switch ($_POST['btnServicios']) {
 			case 'Consultar':

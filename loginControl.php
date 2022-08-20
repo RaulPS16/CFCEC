@@ -46,6 +46,7 @@
                 // instancia el rol, id_usuario y modifica fecha de ultimo ingreso en las variables sesiones
                 $_SESSION['sId_rol'] = $resultLogin['id_rol'];
                 $_SESSION['sUsuario'] = $resultLogin['id_usuario'];
+                $_SESSION['sNombre'] = $resultLogin['nombre'];
                 $actualizaFecha = $this->datUsuarios->actualizaFechaAcceso($valores);
                 // ingresa al inicio del sitio
                 header("Location: inicio.php");

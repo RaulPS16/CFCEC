@@ -35,7 +35,7 @@
 	$fechaActual = date("Y-m-d");
 	$valores = array(
 		"fecha_trx" => $fechaActual,
-		"id_usuario" => "604320137");
+		"id_usuario" => $_SESSION['sUsuario']);
 
 	$paginas = new paginacionTransacciones(2, $valores);
 	

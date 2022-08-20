@@ -148,7 +148,6 @@
 				$sql = "SELECT * FROM contabilidad WHERE fecha LIKE '%" . $pValores["fecha_contable"] . "%'";				
 				if ($pValores["id_usuario"] <> '') {
 					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
-					echo $sql;
 				}
 				$sql = $sql . " ORDER BY fecha DESC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . "";
 				$this->dbm->Consultar($sql);

@@ -6,7 +6,11 @@
 
 		$datCuentas = new datCuentas();
 
-		$datosPantalla = array("id_cliente" => $_POST['id_cliente'], "id_cuenta" => $_POST['id_cuenta'], "moneda" => $_POST['moneda'], "modulo" => "manCuentas", "id_cuenta_original" => $_POST['id_cuenta_original']);
+		$datosPantalla = array("id_cliente" => $_POST['id_cliente'], 
+		"id_cuenta" => $_POST['id_cuenta'], 
+		"moneda" => $_POST['moneda'], 
+		"modulo" => "manCuentas", 
+		"id_cuenta_original" => $_POST['id_cuenta_original']);
 
 		//print_r($datosPantalla);
 		switch ($_POST['btnCuentas']) {

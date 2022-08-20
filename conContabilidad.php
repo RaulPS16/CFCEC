@@ -46,9 +46,6 @@
 	
 
 	$fechaActual = date("Y-m-d");
-	if (isset($_GET['error']) && $_GET['error'] <> 0) {
-		echo "Se a producido un error";
-	}
 	/*$totalCR = 0;
 	$totalDB = 0;
 	$difConta = 0;*/

@@ -20,8 +20,8 @@
          * DATOS de ejemplo
          */
         $datosPantalla = array(
-            "fecha_contable" => "2022-07-30",
-            "id_usuario" => "604320137");
+            "fecha_contable" => $_GET['fecha_contable'],
+            "id_usuario" => $_GET['id_usuario']);
 
         $datosSQL = $datContabilidad->consultarFechaUsuario($datosPantalla, 1 , 4);
         /*$totalCR = 0;

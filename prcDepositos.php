@@ -1,5 +1,5 @@
 <?php
-
+	session_start();
 	try {
 		
 		/**
@@ -45,7 +45,7 @@
 			"detalle_trx" => $_POST['detalle_trx'], 
 			"id_tarjeta" => "0",
 			"id_servicio" => "1", 
-			"id_usuario" => "604320137",
+			"id_usuario" => $_SESSION['sUsuario'],
 			"modulo" => "traDepositos",
 			"cr_db" => "",
 			"cuenta_contable" => "");

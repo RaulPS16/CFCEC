@@ -148,7 +148,11 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT id_usuario, id_rol, COUNT(*) AS contador FROM usuarios WHERE id_usuario = " . $pValores["id_usuario"] . " AND clave = " . $pValores["clave"] . ";";
+				$sql = "SELECT usuarios.id_usuario, usuarios.id_rol, COUNT(*) AS contador, concat(clientes.nombre,' ',clientes.apellidos) as nombre 
+				FROM usuarios INNER JOIN clientes
+				ON usuarios.id_usuario = clientes.id_cliente
+				WHERE usuarios.id_usuario = " . $pValores['id_usuario'] . "
+				AND usuarios.clave = " . $pValores['clave'] . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
