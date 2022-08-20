@@ -189,7 +189,7 @@
 			try {
 				$sql = "SELECT count(*) AS total FROM usuarios;";
 				$this->dbm->Consultar($sql);
-				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
@@ -206,7 +206,7 @@
 			try {
 				$sql = "SELECT * FROM usuarios WHERE id_usuario = ". $pValores['id_usuario'] . ";";
 				$this->dbm->Consultar($sql);
-				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));

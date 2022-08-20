@@ -47,29 +47,24 @@
             "clave" => "12345",
             "id_rol" => $_POST['id_rol'],
             "modulo" => "conUsuarios");
-            $datosUsuarios = array("id_usuario" => "604320137",
-            "clave" => "12345",
-            "id_rol" => "1",
-            "modulo" => "conUsuarios");
             $datosConsulta = array("id_cliente" => $_POST['id_usuario'],
             "modulo" => "conUsuarios");
-            $datosConsulta = array("id_cliente" => "604320137",
-            "modulo" => "conUsuarios");
-            try {
-                $datosSQL = $datClientes->consultar($datosConsulta);
-                
-            } catch (\Throwable $th) {
+            
+            $datosSQL = $datClientes->consultar($datosConsulta);
+            if ($datosSQL == 0) {
                 header("Location: conUsuarios.php?error=20");
+                exit;
             }
             $datosSQL = null;
             $datosSQL = $datUsuarios->consultaUsuario($datosUsuarios);
-            if (isset($datosSQL['id_usuario'])) {
+            if (!empty($datosSQL['id_usuario'])) {
                 header("Location: conUsuarios.php?error=5");
             }else {
                 $datUsuarios->insertar($datosUsuarios);
                 header("Location: conUsuarios.php?error=0");
             }
-        } catch (\Throwable $th) {
+
+        }catch (\Throwable $th) {
             header("Location: conUsuarios.php?error=21");
         }
     }else{

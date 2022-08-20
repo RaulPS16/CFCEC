@@ -93,7 +93,7 @@
             <div class="modal-body">
                 <form action="prcModUsuario.php" class="needs-validation" method="POST" novalidate>
                     <div class="has-validation form-floating mb-3">
-                        <input type="number" maxlength="50" class="form-control" id="id_usuario" name="id_usuario" placeholder="102340567" required>
+                        <input type="number" maxlength="50" class="form-control" id="id_usuario" name="id_usuario" placeholder="102340567" required value="604320137">
 						<label for="id_usuario" class="form-label">Identificación</label>
 						<div class="invalid-feedback">
 							Ingrese un usuario

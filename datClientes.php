@@ -100,7 +100,7 @@
 				$this->dbm->Consultar($sql);
 				$cantidadFilas = mysqli_num_rows($this->dbm->Consultar($sql));
 				if ($cantidadFilas == 0) {
-					throw new Exception("Registro no existe");
+					return $cantidadFilas;
 				}
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {

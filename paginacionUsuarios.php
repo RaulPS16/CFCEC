@@ -80,11 +80,14 @@ class paginacionTransacciones extends datUsuarios{
     function calcularPaginas(){
         $queryTotalResultados = $this->consultarContador();
         //$queryTotalResultados = $this->connect()->query('SELECT COUNT(*) AS total FROM pelicula');
-        $this->nResultados = $queryTotalResultados[0]["total"]; 
+        $this->nResultados = $queryTotalResultados["total"]; 
         $this->totalPaginas = $this->nResultados / $this->resultadosPorPagina;
         if(isset($_GET['pagina'])){
             $this->paginaActual = $_GET['pagina'];
             $this->indice = ($this->paginaActual - 1) * $this->resultadosPorPagina;
+            if ($this->indice == $this->resultadosPorPagina) {
+                $this->indice -=1;
+            }
         }
         /*echo "<br> resultadosPorPagina=" .$this->resultadosPorPagina;
         echo "<br> paginaActual=" .$this->paginaActual;
