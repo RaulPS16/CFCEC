@@ -5,7 +5,6 @@
     $datUsuarios = new datUsuarios();
     $datClientes = new datClientes();
     
-    $_POST['btnCrear'] = 'crear';
 
     if (isset($_GET['btnEstado'])) {
         try {

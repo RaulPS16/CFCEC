@@ -1,9 +1,9 @@
 <?php
 	// Aca se valida si la sesión está abierta
 	session_start();
-	//include_once("loginControl.php");
+	include_once("loginControl.php");
 	// No se pasan valores a la funcion loginControl ya que se asume que está logeado
-	//$login = new loginControl();
+	$login = new loginControl();
 
 	$retornoDatos = array("id_usuario" => "604320137", 
 	"id_rol" => "",
