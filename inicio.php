@@ -29,8 +29,9 @@
 		$menu = new menu($_SESSION['sId_rol']);
 	?>
 	<div class="container">
-
+		<br>
 		<h2 class="text-center">Bienvenido <?php print_r($_SESSION['sNombre']);?></h2>
+		<br>
 
 		<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
 		  <div class="carousel-indicators">
@@ -72,9 +73,9 @@
 		</div>
 
 	</div>
-	
-
+	<br><br><br>
 	<script type="text/javascript" src="js/validaForms.js"></script>
 	<?php include("footer.html");	?>
 </body>
+
 </html>

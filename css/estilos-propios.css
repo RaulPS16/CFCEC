@@ -1,7 +1,16 @@
+body{
+	position: relative;
+	padding-bottom: 3em;
+	min-height: 100vh;
+}
 .footer{
 	position: absolute;
-	bottom: 0%;
+	bottom: 0;
+	width: 100%;
+	margin-top: 50px;
+	padding: 1em 0;
 }
+
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -26,5 +35,5 @@ input[type=number]::-webkit-outer-spin-button {
 
 div .alert{
 	position: fixed;
-
 }
+
