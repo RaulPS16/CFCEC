@@ -30,7 +30,7 @@
 
 		<h2 class="text-center">Manual de usuario</h2>
 
-		<embed src="Diccionario de datos.pdf" type="application/pdf" width="100%" height="700px"/>
+		<embed src="" type="application/pdf" width="100%" height="700px"/>
 
 	</div>
 	
