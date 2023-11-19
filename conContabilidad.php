@@ -33,22 +33,22 @@
 	
 	// Valida si en la URL está en la fecha_contable para mostrar la tablas
 	$mostrartabla = FALSE;
+	$fechaActual = date("Y-m-d");
+	$valores = array("fecha_contable" => $fechaActual); //carga fecha actual por default
 	if (!empty($_GET["fecha_contable"])) {
 		$valores = array(
 			"fecha_contable" => $_GET["fecha_contable"],
-	 		"id_usuario" => $_GET["id_usuario"],
-			"totalCR" => $_GET["totalCR"],
-			"totalDB" => $_GET["totalDB"]);
-
+	 		"id_usuario" => $_GET["id_usuario"]);
+			if (!empty($_GET["pagina"]) && $_GET["pagina"] <> 1){ //no carga las llaves de totales por si se pasa de pagina N a 1
+				$valores = array("fecha_contable" => $_GET["fecha_contable"],
+					"id_usuario" => $_GET["id_usuario"],
+					"totalCR" => $_GET["totalCR"],
+					"totalDB" => $_GET["totalDB"]);
+			}
 		$paginas = new paginacion(2, $valores);
 		$mostrartabla = TRUE;
 	}
-	
 
-	$fechaActual = date("Y-m-d");
-	/*$totalCR = 0;
-	$totalDB = 0;
-	$difConta = 0;*/
 	?>
 	<div class="container">
 
@@ -58,7 +58,7 @@
 
 			<div class="col-md-6">
 				<div class="has-validation form-floating">
-					<input type="date" name="fecha_contable" class="form-control" id="fecha_contable" max=<?php print($fechaActual);?> value="<?php print_r($_GET['fecha_contable']); ?>" >
+					<input type="date" name="fecha_contable" class="form-control" id="fecha_contable" max=<?php print($fechaActual);?> value="<?php print_r($valores['fecha_contable']); ?>" >
 					<label for="fecha_contable">Ingrese una fehca valida</label>
 					<div class="invalid-feedback">
 	        			Ingrese una fehca valida
