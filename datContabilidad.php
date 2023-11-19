@@ -41,7 +41,7 @@
 		{
 			try {
 
-				$sql = "INSERT INTO contabilidad VALUES (NULL,'" . $pValores["cuenta_contable"] . "','" . $pValores["monto"] . "'," . $pValores["num_documento"] . ",'" . $pValores["cr_db"] . "','" . $pValores["id_usuario"] . "','" . $pValores["id_servicio"] . "', '" . $pValores["fecha_trx"] . "');";
+				$sql = "INSERT INTO contabilidad VALUES (NULL,'" . $pValores["cuenta_contable"] . "','" . $pValores["monto"] . "'," . $pValores["num_documento"] . ",'" . $pValores["cr_db"] . "','" . $pValores["id_usuario"] . "','" . $pValores["id_servicio"] . "', '" . $pValores["fecha_contable"] . "');";
 
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
@@ -66,7 +66,7 @@
 		public function eliminar($pValores)
 		{
 			try {
-				$sql = "DELETE FROM contabilidad WHERE num_documento = " . $pValores["num_documento"] . " AND fecha like '" . $pValores["fecha_trx"] . "%';";
+				$sql = "DELETE FROM contabilidad WHERE num_documento = " . $pValores["num_documento"] . " AND fecha like '" . $pValores["fecha_contable"] . "%';";
 				$this->dbm->ejecutar($sql);
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
@@ -85,7 +85,7 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM contabilidad WHERE num_documento = " . $pValores["num_documento"] . " AND fecha = '" . $pValores["fecha"] . "';";
+				$sql = "SELECT * FROM contabilidad WHERE num_documento = " . $pValores["num_documento"] . " AND fecha_contable like '" . $pValores["fecha_contable"] . "%';";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -94,7 +94,7 @@
 				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
 				$this->BitacoraErrores->insertar($this->utilitario->cadena);
 				//genera la exepcion
-				throw new Exception("Error en metodo en consultarCliente" . $e->getMessage());
+				throw new Exception("Error en metodo en consultar" . $e->getMessage());
 				
 			}
 		}// fin consultar
@@ -102,7 +102,7 @@
 		/**
 		* Consulta todos los registros en la tabla
 		*/
-		public function consultaLista()
+		public function consultaLista($pValores)
 		{
 			try {
 				$sql = "SELECT * FROM contabilidad;";
@@ -125,7 +125,7 @@
 		public function consultarFecha($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM contabilidad WHERE fecha = '" . $pValores["fecha_contable"] . "';";
+				$sql = "SELECT * FROM contabilidad WHERE fecha_contable = '" . $pValores["fecha_contable"] . "';";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -142,17 +142,19 @@
 		/**
 		* Consulta un registro en la tabla por fecha y usuario
 		*/
-		public function consultarFechaUsuario($pValores, $pIndice = 0, $pResultadoPorPagina)
+		public function consultarFechaUsuario($pValores, $pIndice = 0, $pResultadoPorPagina = 2)
 		{
 			try {
-				$sql = "SELECT * FROM contabilidad WHERE fecha LIKE '%" . $pValores["fecha_contable"] . "%'";				
+				$sql = "SELECT * FROM contabilidad WHERE fecha_contable LIKE '%" . $pValores["fecha_contable"] . "%'";				
 				if ($pValores["id_usuario"] <> '') {
 					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
 				}
-				$sql = $sql . " ORDER BY fecha DESC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . "";
+				$sql = $sql . " ORDER BY fecha_contable DESC LIMIT " . $pIndice . ", " . $pResultadoPorPagina . "";
 				$this->dbm->Consultar($sql);
+				//return $sql;
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
+				//$this->error = $e->getMessage();
 				$this->error = "NO hay datos";
 				return $this->error;
 				
@@ -165,7 +167,7 @@
 		public function consultarContador($pValores)
 		{
 			try {
-				$sql = "SELECT COUNT(*) AS total FROM contabilidad WHERE fecha LIKE '%" . $pValores["fecha_contable"] . "%'";				
+				$sql = "SELECT COUNT(*) AS total FROM contabilidad WHERE fecha_contable LIKE '%" . $pValores["fecha_contable"] . "%'";				
 				if ($pValores["id_usuario"] <> '') {
 					$sql = $sql . " AND id_usuario = " . $pValores["id_usuario"] . "";
 				}

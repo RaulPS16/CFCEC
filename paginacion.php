@@ -31,22 +31,24 @@ class paginacion extends datContabilidad{
         //$query = $this->connect()->prepare('SELECT * FROM pelicula LIMIT :pos, :n');    
         //$query->execute(['pos' => $this->indice, 'n' => $this->resultadosPorPagina]);
         $datosConsultados = $this->consultarFechaUsuario($this->valoresConsulta, $this->indice, $this->resultadosPorPagina);
-        foreach ($datosConsultados as $key => $value) {
-            ?>
-                <tr>
-                    <th scope="row"><?php print_r($value["cuenta_contable"]);?></th>
-                    <td><?php print_r($value["cr_db"])?></td>
-                    <td><?php print_r($value["id_usuario"])?></td>
-                    <td><?php print_r($value["fecha"])?></td>
-                    <td><?php print_r($value["num_documento"])?></td>
-                    <td>$<?php print_r($value["monto"])?></td>
-                </tr>
-            <?php
-            //Evalua si es un DB o CR para totalizarlos
-            if ($value["cr_db"] == "DB") {
-                $this->totalDB += $value["monto"];
-            }elseif ($value["cr_db"] == "CR") {
-                $this->totalCR += $value["monto"];
+        if ($datosConsultados <> "NO hay datos"){
+            foreach ($datosConsultados as $key => $value) {
+                ?>
+                    <tr>
+                        <th scope="row"><?php print_r($value["cuenta_contable"]);?></th>
+                        <td><?php print_r($value["cr_db"])?></td>
+                        <td><?php print_r($value["id_usuario"])?></td>
+                        <td><?php print_r($value["fecha_contable"])?></td>
+                        <td><?php print_r($value["num_documento"])?></td>
+                        <td>$<?php print_r($value["monto"])?></td>
+                    </tr>
+                <?php
+                //Evalua si es un DB o CR para totalizarlos
+                if ($value["cr_db"] == "DB") {
+                    $this->totalDB += $value["monto"];
+                }elseif ($value["cr_db"] == "CR") {
+                    $this->totalCR += $value["monto"];
+                }
             }
         }
         if (!empty($_GET["totalCR"]) || !empty($_GET["totalDB"])) {
@@ -111,7 +113,7 @@ class paginacion extends datContabilidad{
     }
 }
 /*$valores = array(
-    "fecha_contable" => "2022-07-30",
+    "fecha_contable" => "2023-11-19",
     "id_usuario" => 604320137,
     "indice" => 1,
     "resultadosPorPagina" => 2);

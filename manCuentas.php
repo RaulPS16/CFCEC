@@ -36,7 +36,7 @@
 		$menu = new menu($_SESSION['sId_rol']);
 		$util = new utilitarios();
 		
-		$retornoDatos = array("id_cuenta" => "", "id_cliente" => "", "moneda" => "");
+		$retornoDatos = array("id_cuenta" => "", "id_cliente" => "", "id_moneda" => "");
 		$fechaActual = date("Y-m-d");
 		//&& $_GET['error'] <> 0
 		if (isset($_GET['error']) ) {
@@ -82,14 +82,14 @@
 				<div class="has-validation form-floating">
 					<select class="form-select" name="moneda" id="moneda" >
 						<?php
-							if ($retornoDatos['moneda'] == '') {
+							if ($retornoDatos['id_moneda'] == '') {
 								foreach ($listaMonedas as  $fila) {
 									print_r ("<option value='" . $fila['id_moneda'] . "'>" . $fila['nombre_moneda'] . "</option>");
 								}
 							}else{
-								$monedaRetorno = $datMonedas->consultar($retornoDatos['moneda']);
-								$monedasDif = $datMonedas->consultaListaDif($retornoDatos['moneda']);
-								echo "<option value='" . $retornoDatos['moneda'] . "'>" . $monedaRetorno['nombre_moneda'] . "</option>";
+								//$monedaRetorno = $datMonedas->consultar($retornoDatos['id_moneda']);
+								$monedasDif = $datMonedas->consultaListaDif($retornoDatos['id_moneda']);
+								echo "<option value='" . $retornoDatos['id_moneda'] . "'>" . $monedaRetorno['nombre_moneda'] . "</option>";
 								foreach ($monedasDif as  $fila) {
 									print_r ("<option value='" . $fila['id_moneda'] . "'>" . $fila['nombre_moneda'] . "</option>");
 								}

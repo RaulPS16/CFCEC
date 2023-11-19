@@ -107,7 +107,7 @@
 		/**
 		* Consulta todos los registros en la tabla
 		*/
-		public function consultaLista()
+		public function consultaLista($pValores)
 		{
 			try {
 				$sql = "SELECT * FROM cuentas;";

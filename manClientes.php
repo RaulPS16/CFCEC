@@ -37,7 +37,6 @@
 		"direccion_fisica" => "", 
 		"email" => "", 
 		"modulo" => "");
-	$fechaActual = date("Y-m-d");
 	//&& $_GET['error'] <> 0
 	if (isset($_GET['error']) ) {
 		$muestraErrores = new muestraErrores($_GET['error']);

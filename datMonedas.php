@@ -133,7 +133,7 @@
 		public function consultaListaDif($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM monedas WHERE estado = 1 AND  id_moneda <> " . $pValores['moneda'] . ";";
+				$sql = "SELECT * FROM monedas WHERE estado = 1 AND  id_moneda <> " . $pValores['id_moneda'] . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
