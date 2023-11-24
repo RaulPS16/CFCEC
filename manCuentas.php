@@ -51,7 +51,6 @@
 		$modulo = array("modulo" => "ManCuentas");
 		$listaMonedas = $datMonedas->consultaLista($modulo);
 		
-		
 	
 	?>
 	<div class="container mant">
@@ -87,8 +86,8 @@
 									print_r ("<option value='" . $fila['id_moneda'] . "'>" . $fila['nombre_moneda'] . "</option>");
 								}
 							}else{
-								//$monedaRetorno = $datMonedas->consultar($retornoDatos['id_moneda']);
-								$monedasDif = $datMonedas->consultaListaDif($retornoDatos['id_moneda']);
+								$monedaRetorno = $datMonedas->consultar($retornoDatos['id_moneda']); // consulta la descripión de la moneda de la cuenta
+								$monedasDif = $datMonedas->consultaListaDif($retornoDatos['id_moneda']); // consulta las moendas diferentes de la moneda de la cuenta
 								echo "<option value='" . $retornoDatos['id_moneda'] . "'>" . $monedaRetorno['nombre_moneda'] . "</option>";
 								foreach ($monedasDif as  $fila) {
 									print_r ("<option value='" . $fila['id_moneda'] . "'>" . $fila['nombre_moneda'] . "</option>");

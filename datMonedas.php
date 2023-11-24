@@ -96,7 +96,7 @@
 		public function consultar($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM monedas WHERE id_moneda = " . $pValores["id_moneda"] . ";";
+				$sql = "SELECT * FROM monedas WHERE id_moneda = " . $pValores . ";";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_array($this->dbm->consultaID,MYSQLI_ASSOC);
 			} catch (Exception $e) {
@@ -133,16 +133,19 @@
 		public function consultaListaDif($pValores)
 		{
 			try {
-				$sql = "SELECT * FROM monedas WHERE estado = 1 AND  id_moneda <> " . $pValores['id_moneda'] . ";";
+				
+				$sql = "SELECT * FROM monedas WHERE estado = 1 AND  id_moneda <> " . $pValores . ";";
+				//$sql = "SELECT * FROM monedas WHERE estado = 1 AND  id_moneda <> 1;";
 				$this->dbm->Consultar($sql);
 				return mysqli_fetch_all($this->dbm->consultaID,MYSQLI_ASSOC);
+				//return $pValores;
 			} catch (Exception $e) {
 				// Carga el vector para hacer el reporte del error
 				$this->datosBitacora = array('descripcion_error' => $e->getMessage() ,'error_num' => 1, 'modulo' => $pValores["modulo"], 'funcion' => __METHOD__, 'script_sql' => $sql, 'datos_pantalla' => IMPLODE(", ",$pValores));
 				$this->utilitario->remueve_caracteres_especiales($this->datosBitacora);
 				$this->BitacoraErrores->insertar($this->utilitario->cadena);
 				//genera la exepcion
-				throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
+				//throw new Exception("Error en metodo en consultaLista" . $e->getMessage());
 				
 			}
 		}
